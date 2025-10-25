@@ -1,89 +1,111 @@
 // ==================== 全域變數 ====================
-// 斷路器動作特性試驗數據分析 - 新數據結構（包含測量值1和測量值2）
+// 斷路器動作特性試驗數據分析 - 新數據結構（包含測量值1、測量值2、測量值3）
 const circuitBreakerData = {
     // 根據新的CSV數據結構重新組織
     "量測數據": [
-        // 20240304A 儀器數據
-        {量測者: "涂X騰", 儀器編號: "20240304A", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 99.9, 測量值2: 96.1}, 開啟: {測量值1: 28.7, 測量值2: 29.2}},
-        {量測者: "余O濤", 儀器編號: "20240304A", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 93.5, 測量值2: 99.3}, 開啟: {測量值1: 28.8, 測量值2: 30.8}},
-        {量測者: "洪O祥", 儀器編號: "20240304A", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 99.4, 測量值2: 96.6}, 開啟: {測量值1: 29.2, 測量值2: 31.2}},
-        {量測者: "游X潔", 儀器編號: "20240304A", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 97.4, 測量值2: 98.0}, 開啟: {測量值1: 29.5, 測量值2: 31.2}},
-        {量測者: "涂X騰", 儀器編號: "20240304B", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 97.5, 測量值2: 99.5}, 開啟: {測量值1: 28.1, 測量值2: 30.1}},
-        {量測者: "余O濤", 儀器編號: "20240304B", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 95.9, 測量值2: 99.6}, 開啟: {測量值1: 29.6, 測量值2: 28.9}},
-        {量測者: "洪O祥", 儀器編號: "20240304B", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 96.0, 測量值2: 97.4}, 開啟: {測量值1: 27.6, 測量值2: 26.6}},
-        {量測者: "游X潔", 儀器編號: "20240304B", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 96.4, 測量值2: 96.0}, 開啟: {測量值1: 30.4, 測量值2: 29.3}},
-        {量測者: "涂X騰", 儀器編號: "20240304C", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 97.3, 測量值2: 97.4}, 開啟: {測量值1: 31.0, 測量值2: 28.9}},
-        {量測者: "余O濤", 儀器編號: "20240304C", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 95.8, 測量值2: 96.4}, 開啟: {測量值1: 28.9, 測量值2: 31.2}},
-        {量測者: "洪O祥", 儀器編號: "20240304C", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 99.9, 測量值2: 97.6}, 開啟: {測量值1: 27.2, 測量值2: 29.5}},
-        {量測者: "游X潔", 儀器編號: "20240304C", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 98.5, 測量值2: 97.7}, 開啟: {測量值1: 30.3, 測量值2: 29.4}},
-        {量測者: "涂X騰", 儀器編號: "20250224A", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 99.9, 測量值2: 99.3}, 開啟: {測量值1: 30.4, 測量值2: 30.3}},
-        {量測者: "余O濤", 儀器編號: "20250224A", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 92.4, 測量值2: 98.3}, 開啟: {測量值1: 26.6, 測量值2: 28.6}},
-        {量測者: "洪O祥", 儀器編號: "20250224A", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 98.7, 測量值2: 97.7}, 開啟: {測量值1: 27.1, 測量值2: 29.3}},
-        {量測者: "游X潔", 儀器編號: "20250224A", 量測手法: "A", 組裝廠別: "精裝A", 閉合: {測量值1: 95.0, 測量值2: 98.0}, 開啟: {測量值1: 30.0, 測量值2: 30.1}},
-        {量測者: "涂X騰", 儀器編號: "20240304A", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 96.8, 測量值2: 98.3}, 開啟: {測量值1: 29.2, 測量值2: 28.6}},
-        {量測者: "余O濤", 儀器編號: "20240304A", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 98.3, 測量值2: 97.7}, 開啟: {測量值1: 28.6, 測量值2: 29.3}},
-        {量測者: "洪O祥", 儀器編號: "20240304A", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 97.7, 測量值2: 99.4}, 開啟: {測量值1: 29.3, 測量值2: 29.2}},
-        {量測者: "游X潔", 儀器編號: "20240304A", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 98.0, 測量值2: 97.4}, 開啟: {測量值1: 30.1, 測量值2: 29.5}},
-        {量測者: "涂X騰", 儀器編號: "20240304B", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 97.6, 測量值2: 95.9}, 開啟: {測量值1: 28.2, 測量值2: 29.7}},
-        {量測者: "余O濤", 儀器編號: "20240304B", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 95.9, 測量值2: 96.3}, 開啟: {測量值1: 29.7, 測量值2: 29.5}},
-        {量測者: "洪O祥", 儀器編號: "20240304B", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 95.6, 測量值2: 98.2}, 開啟: {測量值1: 28.9, 測量值2: 30.0}},
-        {量測者: "游X潔", 儀器編號: "20240304B", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 96.3, 測量值2: 98.4}, 開啟: {測量值1: 29.5, 測量值2: 30.6}},
-        {量測者: "涂X騰", 儀器編號: "20240304C", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 98.9, 測量值2: 98.7}, 開啟: {測量值1: 28.7, 測量值2: 29.7}},
-        {量測者: "余O濤", 儀器編號: "20240304C", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 97.5, 測量值2: 95.0}, 開啟: {測量值1: 29.6, 測量值2: 30.7}},
-        {量測者: "洪O祥", 儀器編號: "20240304C", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 97.4, 測量值2: 98.8}, 開啟: {測量值1: 29.9, 測量值2: 28.9}},
-        {量測者: "游X潔", 儀器編號: "20240304C", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 98.8, 測量值2: 97.4}, 開啟: {測量值1: 29.3, 測量值2: 30.0}},
-        {量測者: "涂X騰", 儀器編號: "20250224A", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 98.4, 測量值2: 99.9}, 開啟: {測量值1: 29.2, 測量值2: 30.4}},
-        {量測者: "余O濤", 儀器編號: "20250224A", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 97.4, 測量值2: 92.4}, 開啟: {測量值1: 29.2, 測量值2: 26.6}},
-        {量測者: "洪O祥", 儀器編號: "20250224A", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 97.3, 測量值2: 98.7}, 開啟: {測量值1: 29.7, 測量值2: 27.1}},
-        {量測者: "游X潔", 儀器編號: "20250224A", 量測手法: "B", 組裝廠別: "精裝A", 閉合: {測量值1: 98.5, 測量值2: 95.0}, 開啟: {測量值1: 29.3, 測量值2: 30.0}},
-        {量測者: "涂X騰", 儀器編號: "20240304A", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 95.8, 測量值2: 96.7}, 開啟: {測量值1: 29.8, 測量值2: 30.4}},
-        {量測者: "余O濤", 儀器編號: "20240304A", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 96.9, 測量值2: 96.7}, 開啟: {測量值1: 29.5, 測量值2: 29.4}},
-        {量測者: "洪O祥", 儀器編號: "20240304A", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 96.7, 測量值2: 96.7}, 開啟: {測量值1: 30.4, 測量值2: 28.8}},
-        {量測者: "游X潔", 儀器編號: "20240304A", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 96.7, 測量值2: 98.0}, 開啟: {測量值1: 29.4, 測量值2: 29.8}},
-        {量測者: "涂X騰", 儀器編號: "20240304B", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 96.7, 測量值2: 98.1}, 開啟: {測量值1: 28.8, 測量值2: 30.0}},
-        {量測者: "余O濤", 儀器編號: "20240304B", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 97.7, 測量值2: 98.1}, 開啟: {測量值1: 29.3, 測量值2: 30.0}},
-        {量測者: "洪O祥", 儀器編號: "20240304B", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 93.7, 測量值2: 98.2}, 開啟: {測量值1: 29.2, 測量值2: 30.0}},
-        {量測者: "游X潔", 儀器編號: "20240304B", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 96.5, 測量值2: 98.0}, 開啟: {測量值1: 29.6, 測量值2: 30.2}},
-        {量測者: "涂X騰", 儀器編號: "20240304C", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 94.0, 測量值2: 96.8}, 開啟: {測量值1: 29.5, 測量值2: 30.5}},
-        {量測者: "余O濤", 儀器編號: "20240304C", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 97.5, 測量值2: 96.0}, 開啟: {測量值1: 29.7, 測量值2: 30.1}},
-        {量測者: "洪O祥", 儀器編號: "20240304C", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 97.4, 測量值2: 97.3}, 開啟: {測量值1: 29.3, 測量值2: 30.2}},
-        {量測者: "游X潔", 儀器編號: "20240304C", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 97.6, 測量值2: 97.2}, 開啟: {測量值1: 28.0, 測量值2: 30.7}},
-        {量測者: "涂X騰", 儀器編號: "20250224A", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 97.5, 測量值2: 98.3}, 開啟: {測量值1: 28.0, 測量值2: 30.3}},
-        {量測者: "余O濤", 儀器編號: "20250224A", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 95.5, 測量值2: 95.8}, 開啟: {測量值1: 28.5, 測量值2: 30.3}},
-        {量測者: "洪O祥", 儀器編號: "20250224A", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 97.3, 測量值2: 97.9}, 開啟: {測量值1: 28.9, 測量值2: 30.3}},
-        {量測者: "游X潔", 儀器編號: "20250224A", 量測手法: "C", 組裝廠別: "精裝A", 閉合: {測量值1: 97.2, 測量值2: 96.3}, 開啟: {測量值1: 30.4, 測量值2: 30.5}},
-        {量測者: "涂X騰", 儀器編號: "20240304A", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.0, 測量值2: 96.2}, 開啟: {測量值1: 31.2, 測量值2: 30.1}},
-        {量測者: "余O濤", 儀器編號: "20240304A", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.4, 測量值2: 98.0}, 開啟: {測量值1: 29.7, 測量值2: 30.2}},
-        {量測者: "洪O祥", 儀器編號: "20240304A", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.3, 測量值2: 97.8}, 開啟: {測量值1: 29.2, 測量值2: 30.2}},
-        {量測者: "游X潔", 儀器編號: "20240304A", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 94.3, 測量值2: 97.9}, 開啟: {測量值1: 30.6, 測量值2: 30.4}},
-        {量測者: "涂X騰", 儀器編號: "20240304B", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 95.3, 測量值2: 97.5}, 開啟: {測量值1: 30.3, 測量值2: 30.3}},
-        {量測者: "余O濤", 儀器編號: "20240304B", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 97.3, 測量值2: 98.0}, 開啟: {測量值1: 29.7, 測量值2: 30.2}},
-        {量測者: "洪O祥", 儀器編號: "20240304B", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.1, 測量值2: 97.8}, 開啟: {測量值1: 30.4, 測量值2: 30.2}},
-        {量測者: "游X潔", 儀器編號: "20240304B", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.4, 測量值2: 97.9}, 開啟: {測量值1: 30.9, 測量值2: 30.4}},
-        {量測者: "涂X騰", 儀器編號: "20240304C", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.6, 測量值2: 96.9}, 開啟: {測量值1: 29.6, 測量值2: 29.6}},
-        {量測者: "余O濤", 儀器編號: "20240304C", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 95.4, 測量值2: 97.0}, 開啟: {測量值1: 29.5, 測量值2: 29.7}},
-        {量測者: "洪O祥", 儀器編號: "20240304C", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.2, 測量值2: 96.5}, 開啟: {測量值1: 30.9, 測量值2: 30.2}},
-        {量測者: "游X潔", 儀器編號: "20240304C", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.9, 測量值2: 96.9}, 開啟: {測量值1: 29.2, 測量值2: 29.2}},
-        {量測者: "涂X騰", 儀器編號: "20250224A", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.0, 測量值2: 96.9}, 開啟: {測量值1: 30.3, 測量值2: 29.7}},
-        {量測者: "余O濤", 儀器編號: "20250224A", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.9, 測量值2: 96.1}, 開啟: {測量值1: 29.7, 測量值2: 30.4}},
-        {量測者: "洪O祥", 儀器編號: "20250224A", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.1, 測量值2: 96.7}, 開啟: {測量值1: 30.4, 測量值2: 30.7}},
-        {量測者: "游X潔", 儀器編號: "20250224A", 量測手法: "D", 組裝廠別: "精裝A", 閉合: {測量值1: 96.7, 測量值2: 95.8}, 開啟: {測量值1: 30.7, 測量值2: 30.8}}
+        // 21B652G 儀器數據 - 手法A
+        {量測者: "涂X騰", 儀器編號: "21B652G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 86.5, 量測值2: 86.1, 量測值3: 86.8},
+        {量測者: "余O濤", 儀器編號: "21B652G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 87.1, 量測值2: 85.8, 量測值3: 86.9},
+        {量測者: "洪O祥", 儀器編號: "21B652G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 86.1, 量測值2: 85.3, 量測值3: 85.1},
+        {量測者: "游X潔", 儀器編號: "21B652G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 85.9, 量測值2: 85.7, 量測值3: 84.2},
+        // 21B653G 儀器數據 - 手法A
+        {量測者: "涂X騰", 儀器編號: "21B653G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 86.5, 量測值2: 86.2, 量測值3: 86.7},
+        {量測者: "余O濤", 儀器編號: "21B653G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 87.0, 量測值2: 86.8, 量測值3: 86.2},
+        {量測者: "洪O祥", 儀器編號: "21B653G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 86.4, 量測值2: 85.9, 量測值3: 86.6},
+        {量測者: "游X潔", 儀器編號: "21B653G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 86.7, 量測值2: 86.2, 量測值3: 86.7},
+        // 23B531G 儀器數據 - 手法A
+        {量測者: "涂X騰", 儀器編號: "23B531G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 84.6, 量測值2: 85.1, 量測值3: 84.9},
+        {量測者: "余O濤", 儀器編號: "23B531G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 83.7, 量測值2: 83.1, 量測值3: 83.7},
+        {量測者: "洪O祥", 儀器編號: "23B531G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 84.7, 量測值2: 85.1, 量測值3: 84.8},
+        {量測者: "游X潔", 儀器編號: "23B531G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 85.8, 量測值2: 85.3, 量測值3: 85.5},
+        // 23B532G 儀器數據 - 手法A
+        {量測者: "涂X騰", 儀器編號: "23B532G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 85.9, 量測值2: 86.1, 量測值3: 86.6},
+        {量測者: "余O濤", 儀器編號: "23B532G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 86.5, 量測值2: 86.2, 量測值3: 86.0},
+        {量測者: "洪O祥", 儀器編號: "23B532G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 85.7, 量測值2: 86.4, 量測值3: 85.9},
+        {量測者: "游X潔", 儀器編號: "23B532G", 量測手法: "A", 組裝廠別: "精裝A", 量測值1: 85.1, 量測值2: 84.3, 量測值3: 84.7},
+        // 21B652G 儀器數據 - 手法B
+        {量測者: "涂X騰", 儀器編號: "21B652G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 97.2, 量測值2: 91.5, 量測值3: 98.1},
+        {量測者: "余O濤", 儀器編號: "21B652G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 96.2, 量測值2: 98.4, 量測值3: 99.9},
+        {量測者: "洪O祥", 儀器編號: "21B652G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 99.2, 量測值2: 97.2, 量測值3: 97.1},
+        {量測者: "游X潔", 儀器編號: "21B652G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 98.6, 量測值2: 97.5, 量測值3: 99.5},
+        // 21B653G 儀器數據 - 手法B
+        {量測者: "涂X騰", 儀器編號: "21B653G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 100.8, 量測值2: 100.5, 量測值3: 101.1},
+        {量測者: "余O濤", 儀器編號: "21B653G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 101.2, 量測值2: 100.7, 量測值3: 101.9},
+        {量測者: "洪O祥", 儀器編號: "21B653G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 101.5, 量測值2: 102.4, 量測值3: 100.8},
+        {量測者: "游X潔", 儀器編號: "21B653G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 100.8, 量測值2: 99.2, 量測值3: 100.6},
+        // 23B531G 儀器數據 - 手法B
+        {量測者: "涂X騰", 儀器編號: "23B531G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 99.6, 量測值2: 98.1, 量測值3: 98.8},
+        {量測者: "余O濤", 儀器編號: "23B531G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 98.7, 量測值2: 97.5, 量測值3: 99.7},
+        {量測者: "洪O祥", 儀器編號: "23B531G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 98.9, 量測值2: 97.2, 量測值3: 98.1},
+        {量測者: "游X潔", 儀器編號: "23B531G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 98.5, 量測值2: 99.5, 量測值3: 99.1},
+        // 23B532G 儀器數據 - 手法B
+        {量測者: "涂X騰", 儀器編號: "23B532G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 99.1, 量測值2: 99.5, 量測值3: 98.5},
+        {量測者: "余O濤", 儀器編號: "23B532G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 97.4, 量測值2: 97.3, 量測值3: 98.4},
+        {量測者: "洪O祥", 儀器編號: "23B532G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 99.0, 量測值2: 98.2, 量測值3: 98.1},
+        {量測者: "游X潔", 儀器編號: "23B532G", 量測手法: "B", 組裝廠別: "精裝A", 量測值1: 99.5, 量測值2: 98.4, 量測值3: 99.1},
+        // 21B652G 儀器數據 - 手法C
+        {量測者: "涂X騰", 儀器編號: "21B652G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 86.5, 量測值2: 86.3, 量測值3: 85.4},
+        {量測者: "余O濤", 儀器編號: "21B652G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 85.7, 量測值2: 85.1, 量測值3: 85.9},
+        {量測者: "洪O祥", 儀器編號: "21B652G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 86.1, 量測值2: 85.9, 量測值3: 85.1},
+        {量測者: "游X潔", 儀器編號: "21B652G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 85.7, 量測值2: 85.7, 量測值3: 85.9},
+        // 21B653G 儀器數據 - 手法C
+        {量測者: "涂X騰", 儀器編號: "21B653G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 87.5, 量測值2: 87.9, 量測值3: 87.7},
+        {量測者: "余O濤", 儀器編號: "21B653G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 88.1, 量測值2: 89.2, 量測值3: 86.4},
+        {量測者: "洪O祥", 儀器編號: "21B653G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 87.3, 量測值2: 88.1, 量測值3: 87.6},
+        {量測者: "游X潔", 儀器編號: "21B653G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 88.3, 量測值2: 88.9, 量測值3: 89.2},
+        // 23B531G 儀器數據 - 手法C
+        {量測者: "涂X騰", 儀器編號: "23B531G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 86.3, 量測值2: 87.1, 量測值3: 86.8},
+        {量測者: "余O濤", 儀器編號: "23B531G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 86.8, 量測值2: 87.2, 量測值3: 86.5},
+        {量測者: "洪O祥", 儀器編號: "23B531G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 86.2, 量測值2: 86.8, 量測值3: 86.5},
+        {量測者: "游X潔", 儀器編號: "23B531G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 86.9, 量測值2: 86.5, 量測值3: 86.5},
+        // 23B532G 儀器數據 - 手法C
+        {量測者: "涂X騰", 儀器編號: "23B532G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 86.5, 量測值2: 86.1, 量測值3: 85.6},
+        {量測者: "余O濤", 儀器編號: "23B532G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 86.2, 量測值2: 86.0, 量測值3: 85.9},
+        {量測者: "洪O祥", 儀器編號: "23B532G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 85.2, 量測值2: 85.8, 量測值3: 85.0},
+        {量測者: "游X潔", 儀器編號: "23B532G", 量測手法: "C", 組裝廠別: "精裝A", 量測值1: 86.1, 量測值2: 85.8, 量測值3: 86.3},
+        // 21B652G 儀器數據 - 手法D
+        {量測者: "涂X騰", 儀器編號: "21B652G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 86.5, 量測值2: 86.1, 量測值3: 86.2},
+        {量測者: "余O濤", 儀器編號: "21B652G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 85.7, 量測值2: 85.1, 量測值3: 85.9},
+        {量測者: "洪O祥", 儀器編號: "21B652G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 86.1, 量測值2: 85.9, 量測值3: 85.1},
+        {量測者: "游X潔", 儀器編號: "21B652G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 85.7, 量測值2: 85.7, 量測值3: 85.9},
+        // 21B653G 儀器數據 - 手法D
+        {量測者: "涂X騰", 儀器編號: "21B653G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 87.1, 量測值2: 86.9, 量測值3: 86.7},
+        {量測者: "余O濤", 儀器編號: "21B653G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 86.8, 量測值2: 86.2, 量測值3: 86.4},
+        {量測者: "洪O祥", 儀器編號: "21B653G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 86.3, 量測值2: 86.1, 量測值3: 86.8},
+        {量測者: "游X潔", 儀器編號: "21B653G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 87.3, 量測值2: 86.9, 量測值3: 87.2},
+        // 23B531G 儀器數據 - 手法D
+        {量測者: "涂X騰", 儀器編號: "23B531G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 85.3, 量測值2: 85.1, 量測值3: 84.9},
+        {量測者: "余O濤", 儀器編號: "23B531G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 84.7, 量測值2: 84.9, 量測值3: 84.6},
+        {量測者: "洪O祥", 儀器編號: "23B531G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 85.2, 量測值2: 84.8, 量測值3: 84.8},
+        {量測者: "游X潔", 儀器編號: "23B531G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 84.8, 量測值2: 85.0, 量測值3: 84.7},
+        // 23B532G 儀器數據 - 手法D
+        {量測者: "涂X騰", 儀器編號: "23B532G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 85.9, 量測值2: 86.1, 量測值3: 85.6},
+        {量測者: "余O濤", 儀器編號: "23B532G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 86.5, 量測值2: 86.2, 量測值3: 85.9},
+        {量測者: "洪O祥", 儀器編號: "23B532G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 84.7, 量測值2: 85.2, 量測值3: 85.0},
+        {量測者: "游X潔", 儀器編號: "23B532G", 量測手法: "D", 組裝廠別: "精裝A", 量測值1: 86.1, 量測值2: 85.8, 量測值3: 85.7}
     ]
 };
 
 // 標準值設定 - 斷路器動作特性試驗標準 (更新後)
 const specLimits = {
-    "閉合": {
-        "下限值": 85,
-        "標準值下限": 93,
-        "標準值上限": 99,
-        "上限值": 120
+    // 新量測值標準（適用於 量測值1/2/3）
+    "量測值1": {
+        "下限值": 78.7,
+        "標準值下限": 84.5,
+        "標準值上限": 87.0,
+        "上限值": 96.2
     },
-    "開啟": {
-        "下限值": 26,
-        "標準值下限": 28,
-        "標準值上限": 31,
-        "上限值": 33
+    "量測值2": {
+        "下限值": 78.7,
+        "標準值下限": 84.5,
+        "標準值上限": 87.0,
+        "上限值": 96.2
+    },
+    "量測值3": {
+        "下限值": 78.7,
+        "標準值下限": 84.5,
+        "標準值上限": 87.0,
+        "上限值": 96.2
     }
 };
 
@@ -145,6 +167,18 @@ function detectOutliersWithDiagnosis(data, mean, stdDev, usl, lsl) {
 const spcData = {};
 const phaseBreakdown = {};
 
+// 量測手法說明對應表
+const methodDescriptions = {
+    'A': '電流夾及電壓夾碰觸導體',
+    'B': '電流及電壓夾同一點位置',
+    'C': '電流夾螺絲，電壓碰觸導體',
+    'D': '電流及電壓分別夾獨立螺絲'
+};
+
+function getMethodDescription(methodLetter) {
+    return methodDescriptions[methodLetter] || '';
+}
+
 // 處理新的數據結構
 const measurementData = circuitBreakerData["量測數據"];
 
@@ -160,8 +194,9 @@ measurementData.forEach(record => {
         groupedByInstrumentAndMeasurer[key] = {
             儀器編號: instrument,
             量測者: measurer,
-            閉合: {測量值1: [], 測量值2: []},
-            開啟: {測量值1: [], 測量值2: []},
+            量測值1: [],
+            量測值2: [],
+            量測值3: [],
             測量手法順序: [] // 記錄測量手法的順序
         };
     }
@@ -169,18 +204,15 @@ measurementData.forEach(record => {
     // 記錄測量手法順序
     groupedByInstrumentAndMeasurer[key].測量手法順序.push(method);
     
-    // 添加閉合和開啟數據（測量值1和測量值2）
-    if (record.閉合 && record.閉合.測量值1 !== null && record.閉合.測量值1 !== undefined) {
-        groupedByInstrumentAndMeasurer[key].閉合.測量值1.push(record.閉合.測量值1);
+    // 添加測量值數據
+    if (record.量測值1 !== null && record.量測值1 !== undefined) {
+        groupedByInstrumentAndMeasurer[key].量測值1.push(record.量測值1);
     }
-    if (record.閉合 && record.閉合.測量值2 !== null && record.閉合.測量值2 !== undefined) {
-        groupedByInstrumentAndMeasurer[key].閉合.測量值2.push(record.閉合.測量值2);
+    if (record.量測值2 !== null && record.量測值2 !== undefined) {
+        groupedByInstrumentAndMeasurer[key].量測值2.push(record.量測值2);
     }
-    if (record.開啟 && record.開啟.測量值1 !== null && record.開啟.測量值1 !== undefined) {
-        groupedByInstrumentAndMeasurer[key].開啟.測量值1.push(record.開啟.測量值1);
-    }
-    if (record.開啟 && record.開啟.測量值2 !== null && record.開啟.測量值2 !== undefined) {
-        groupedByInstrumentAndMeasurer[key].開啟.測量值2.push(record.開啟.測量值2);
+    if (record.量測值3 !== null && record.量測值3 !== undefined) {
+        groupedByInstrumentAndMeasurer[key].量測值3.push(record.量測值3);
     }
 });
 
@@ -190,245 +222,187 @@ Object.keys(groupedByInstrumentAndMeasurer).forEach(key => {
     const instrument = data.儀器編號;
     const measurer = data.量測者;
     
-    // 處理閉合數據 - 測量值1
-    const closeStats = calculateStats(data.閉合.測量值1);
-    const closeLimits = specLimits["閉合"];
-    const closeOutliers = detectOutliersWithDiagnosis(data.閉合.測量值1, closeStats.mean, closeStats.stdDev, closeLimits.上限值, closeLimits.下限值);
+    // 處理量測值1
+    const measurement1Stats = calculateStats(data.量測值1);
+    const measurement1Limits = {上限值: specLimits['量測值1'].上限值, 下限值: specLimits['量測值1'].下限值};
+    const measurement1Outliers = detectOutliersWithDiagnosis(data.量測值1, measurement1Stats.mean, measurement1Stats.stdDev, measurement1Limits.上限值, measurement1Limits.下限值);
     
-    const closeUcl = closeStats.mean + 3 * closeStats.stdDev;
-    const closeLcl = Math.max(0, closeStats.mean - 3 * closeStats.stdDev);
-    const closeCpu = (closeLimits.上限值 - closeStats.mean) / (3 * closeStats.stdDev);
-    const closeCpl = (closeStats.mean - closeLimits.下限值) / (3 * closeStats.stdDev);
-    const closeCpk = Math.min(closeCpu, closeCpl);
+    const measurement1Ucl = measurement1Stats.mean + 3 * measurement1Stats.stdDev;
+    const measurement1Lcl = Math.max(0, measurement1Stats.mean - 3 * measurement1Stats.stdDev);
+    const measurement1Cpu = (measurement1Limits.上限值 - measurement1Stats.mean) / (3 * measurement1Stats.stdDev);
+    const measurement1Cpl = (measurement1Stats.mean - measurement1Limits.下限值) / (3 * measurement1Stats.stdDev);
+    const measurement1Cpk = Math.min(measurement1Cpu, measurement1Cpl);
     
-    // 處理閉合數據 - 測量值1
-    const closeKey1 = `${instrument}-${measurer}-閉合-測量值1`;
-    spcData[closeKey1] = {
-        n: closeStats.n,
-        mean: closeStats.mean,
-        stdDev: closeStats.stdDev,
-        range: closeStats.range,
-        usl: closeLimits.上限值,
-        lsl: closeLimits.下限值,
-        ucl: closeUcl,
-        lcl: closeLcl,
-        outliers: closeOutliers.length,
-        cpu: closeCpu,
-        cpk: closeCpk,
+    const measurement1Key = `${instrument}-${measurer}-量測值1`;
+    spcData[measurement1Key] = {
+        n: measurement1Stats.n,
+        mean: measurement1Stats.mean,
+        stdDev: measurement1Stats.stdDev,
+        range: measurement1Stats.range,
+        usl: measurement1Limits.上限值,
+        lsl: measurement1Limits.下限值,
+        ucl: measurement1Ucl,
+        lcl: measurement1Lcl,
+        outliers: measurement1Outliers.length,
+        cpu: measurement1Cpu,
+        cpk: measurement1Cpk,
         singleSided: false,
-        measurements: data.閉合.測量值1
+        measurements: data.量測值1
     };
     
-    phaseBreakdown[closeKey1] = {
+    phaseBreakdown[measurement1Key] = {
         project: instrument,
-        operation: "閉合",
+        operation: "量測值1",
         group: measurer,
         methodOrder: data.測量手法順序,
-        measurement: "測量值1",
-        n: closeStats.n,
-        mean: closeStats.mean,
-        stdDev: closeStats.stdDev,
-        range: closeStats.range,
-        min: closeStats.min,
-        max: closeStats.max,
-        usl: closeLimits.上限值,
-        lsl: closeLimits.下限值,
-        ucl: closeUcl,
-        lcl: closeLcl,
-        outliers: closeOutliers.length,
-        outliersValues: closeOutliers.map(o => o.value),
-        outliersDiagnosis: closeOutliers,
-        cpu: closeCpu,
-        cpl: closeCpl,
-        cpk: closeCpk,
+        measurement: "量測值1",
+        n: measurement1Stats.n,
+        mean: measurement1Stats.mean,
+        stdDev: measurement1Stats.stdDev,
+        range: measurement1Stats.range,
+        min: measurement1Stats.min,
+        max: measurement1Stats.max,
+        usl: measurement1Limits.上限值,
+        lsl: measurement1Limits.下限值,
+        ucl: measurement1Ucl,
+        lcl: measurement1Lcl,
+        outliers: measurement1Outliers.length,
+        outliersValues: measurement1Outliers.map(o => o.value),
+        outliersDiagnosis: measurement1Outliers,
+        cpu: measurement1Cpu,
+        cpl: measurement1Cpl,
+        cpk: measurement1Cpk,
         singleSided: false,
-        measurements: data.閉合.測量值1
+        measurements: data.量測值1
     };
     
-    // 處理閉合數據 - 測量值2
-    const closeStats2 = calculateStats(data.閉合.測量值2);
-    const closeOutliers2 = detectOutliersWithDiagnosis(data.閉合.測量值2, closeStats2.mean, closeStats2.stdDev, closeLimits.上限值, closeLimits.下限值);
+    // 處理量測值2
+    const measurement2Stats = calculateStats(data.量測值2);
+    const measurement2Limits = {上限值: specLimits['量測值2'].上限值, 下限值: specLimits['量測值2'].下限值};
+    const measurement2Outliers = detectOutliersWithDiagnosis(data.量測值2, measurement2Stats.mean, measurement2Stats.stdDev, measurement2Limits.上限值, measurement2Limits.下限值);
     
-    const closeUcl2 = closeStats2.mean + 3 * closeStats2.stdDev;
-    const closeLcl2 = Math.max(0, closeStats2.mean - 3 * closeStats2.stdDev);
-    const closeCpu2 = (closeLimits.上限值 - closeStats2.mean) / (3 * closeStats2.stdDev);
-    const closeCpl2 = (closeStats2.mean - closeLimits.下限值) / (3 * closeStats2.stdDev);
-    const closeCpk2 = Math.min(closeCpu2, closeCpl2);
+    const measurement2Ucl = measurement2Stats.mean + 3 * measurement2Stats.stdDev;
+    const measurement2Lcl = Math.max(0, measurement2Stats.mean - 3 * measurement2Stats.stdDev);
+    const measurement2Cpu = (measurement2Limits.上限值 - measurement2Stats.mean) / (3 * measurement2Stats.stdDev);
+    const measurement2Cpl = (measurement2Stats.mean - measurement2Limits.下限值) / (3 * measurement2Stats.stdDev);
+    const measurement2Cpk = Math.min(measurement2Cpu, measurement2Cpl);
     
-    const closeKey2 = `${instrument}-${measurer}-閉合-測量值2`;
-    spcData[closeKey2] = {
-        n: closeStats2.n,
-        mean: closeStats2.mean,
-        stdDev: closeStats2.stdDev,
-        range: closeStats2.range,
-        usl: closeLimits.上限值,
-        lsl: closeLimits.下限值,
-        ucl: closeUcl2,
-        lcl: closeLcl2,
-        outliers: closeOutliers2.length,
-        cpu: closeCpu2,
-        cpk: closeCpk2,
+    const measurement2Key = `${instrument}-${measurer}-量測值2`;
+    spcData[measurement2Key] = {
+        n: measurement2Stats.n,
+        mean: measurement2Stats.mean,
+        stdDev: measurement2Stats.stdDev,
+        range: measurement2Stats.range,
+        usl: measurement2Limits.上限值,
+        lsl: measurement2Limits.下限值,
+        ucl: measurement2Ucl,
+        lcl: measurement2Lcl,
+        outliers: measurement2Outliers.length,
+        cpu: measurement2Cpu,
+        cpk: measurement2Cpk,
         singleSided: false,
-        measurements: data.閉合.測量值2
+        measurements: data.量測值2
     };
     
-    phaseBreakdown[closeKey2] = {
+    phaseBreakdown[measurement2Key] = {
         project: instrument,
-        operation: "閉合",
+        operation: "量測值2",
         group: measurer,
         methodOrder: data.測量手法順序,
-        measurement: "測量值2",
-        n: closeStats2.n,
-        mean: closeStats2.mean,
-        stdDev: closeStats2.stdDev,
-        range: closeStats2.range,
-        min: closeStats2.min,
-        max: closeStats2.max,
-        usl: closeLimits.上限值,
-        lsl: closeLimits.下限值,
-        ucl: closeUcl2,
-        lcl: closeLcl2,
-        outliers: closeOutliers2.length,
-        outliersValues: closeOutliers2.map(o => o.value),
-        outliersDiagnosis: closeOutliers2,
-        cpu: closeCpu2,
-        cpl: closeCpl2,
-        cpk: closeCpk2,
+        measurement: "量測值2",
+        n: measurement2Stats.n,
+        mean: measurement2Stats.mean,
+        stdDev: measurement2Stats.stdDev,
+        range: measurement2Stats.range,
+        min: measurement2Stats.min,
+        max: measurement2Stats.max,
+        usl: measurement2Limits.上限值,
+        lsl: measurement2Limits.下限值,
+        ucl: measurement2Ucl,
+        lcl: measurement2Lcl,
+        outliers: measurement2Outliers.length,
+        outliersValues: measurement2Outliers.map(o => o.value),
+        outliersDiagnosis: measurement2Outliers,
+        cpu: measurement2Cpu,
+        cpl: measurement2Cpl,
+        cpk: measurement2Cpk,
         singleSided: false,
-        measurements: data.閉合.測量值2
+        measurements: data.量測值2
     };
     
-    // 處理開啟數據 - 測量值1
-    const openStats = calculateStats(data.開啟.測量值1);
-    const openLimits = specLimits["開啟"];
-    const openOutliers = detectOutliersWithDiagnosis(data.開啟.測量值1, openStats.mean, openStats.stdDev, openLimits.上限值, openLimits.下限值);
+    // 處理量測值3
+    const measurement3Stats = calculateStats(data.量測值3);
+    const measurement3Limits = {上限值: specLimits['量測值3'].上限值, 下限值: specLimits['量測值3'].下限值};
+    const measurement3Outliers = detectOutliersWithDiagnosis(data.量測值3, measurement3Stats.mean, measurement3Stats.stdDev, measurement3Limits.上限值, measurement3Limits.下限值);
     
-    const openUcl = openStats.mean + 3 * openStats.stdDev;
-    const openLcl = Math.max(0, openStats.mean - 3 * openStats.stdDev);
-    const openCpu = (openLimits.上限值 - openStats.mean) / (3 * openStats.stdDev);
-    const openCpl = (openStats.mean - openLimits.下限值) / (3 * openStats.stdDev);
-    const openCpk = Math.min(openCpu, openCpl);
+    const measurement3Ucl = measurement3Stats.mean + 3 * measurement3Stats.stdDev;
+    const measurement3Lcl = Math.max(0, measurement3Stats.mean - 3 * measurement3Stats.stdDev);
+    const measurement3Cpu = (measurement3Limits.上限值 - measurement3Stats.mean) / (3 * measurement3Stats.stdDev);
+    const measurement3Cpl = (measurement3Stats.mean - measurement3Limits.下限值) / (3 * measurement3Stats.stdDev);
+    const measurement3Cpk = Math.min(measurement3Cpu, measurement3Cpl);
     
-    // 處理開啟數據 - 測量值1
-    const openKey1 = `${instrument}-${measurer}-開啟-測量值1`;
-    spcData[openKey1] = {
-        n: openStats.n,
-        mean: openStats.mean,
-        stdDev: openStats.stdDev,
-        range: openStats.range,
-        usl: openLimits.上限值,
-        lsl: openLimits.下限值,
-        ucl: openUcl,
-        lcl: openLcl,
-        outliers: openOutliers.length,
-        cpu: openCpu,
-        cpk: openCpk,
+    const measurement3Key = `${instrument}-${measurer}-量測值3`;
+    spcData[measurement3Key] = {
+        n: measurement3Stats.n,
+        mean: measurement3Stats.mean,
+        stdDev: measurement3Stats.stdDev,
+        range: measurement3Stats.range,
+        usl: measurement3Limits.上限值,
+        lsl: measurement3Limits.下限值,
+        ucl: measurement3Ucl,
+        lcl: measurement3Lcl,
+        outliers: measurement3Outliers.length,
+        cpu: measurement3Cpu,
+        cpk: measurement3Cpk,
         singleSided: false,
-        measurements: data.開啟.測量值1
+        measurements: data.量測值3
     };
     
-    phaseBreakdown[openKey1] = {
+    phaseBreakdown[measurement3Key] = {
         project: instrument,
-        operation: "開啟",
+        operation: "量測值3",
         group: measurer,
         methodOrder: data.測量手法順序,
-        measurement: "測量值1",
-        n: openStats.n,
-        mean: openStats.mean,
-        stdDev: openStats.stdDev,
-        range: openStats.range,
-        min: openStats.min,
-        max: openStats.max,
-        usl: openLimits.上限值,
-        lsl: openLimits.下限值,
-        ucl: openUcl,
-        lcl: openLcl,
-        outliers: openOutliers.length,
-        outliersValues: openOutliers.map(o => o.value),
-        outliersDiagnosis: openOutliers,
-        cpu: openCpu,
-        cpl: openCpl,
-        cpk: openCpk,
+        measurement: "量測值3",
+        n: measurement3Stats.n,
+        mean: measurement3Stats.mean,
+        stdDev: measurement3Stats.stdDev,
+        range: measurement3Stats.range,
+        min: measurement3Stats.min,
+        max: measurement3Stats.max,
+        usl: measurement3Limits.上限值,
+        lsl: measurement3Limits.下限值,
+        ucl: measurement3Ucl,
+        lcl: measurement3Lcl,
+        outliers: measurement3Outliers.length,
+        outliersValues: measurement3Outliers.map(o => o.value),
+        outliersDiagnosis: measurement3Outliers,
+        cpu: measurement3Cpu,
+        cpl: measurement3Cpl,
+        cpk: measurement3Cpk,
         singleSided: false,
-        measurements: data.開啟.測量值1
-    };
-    
-    // 處理開啟數據 - 測量值2
-    const openStats2 = calculateStats(data.開啟.測量值2);
-    const openOutliers2 = detectOutliersWithDiagnosis(data.開啟.測量值2, openStats2.mean, openStats2.stdDev, openLimits.上限值, openLimits.下限值);
-    
-    const openUcl2 = openStats2.mean + 3 * openStats2.stdDev;
-    const openLcl2 = Math.max(0, openStats2.mean - 3 * openStats2.stdDev);
-    const openCpu2 = (openLimits.上限值 - openStats2.mean) / (3 * openStats2.stdDev);
-    const openCpl2 = (openStats2.mean - openLimits.下限值) / (3 * openStats2.stdDev);
-    const openCpk2 = Math.min(openCpu2, openCpl2);
-    
-    const openKey2 = `${instrument}-${measurer}-開啟-測量值2`;
-    spcData[openKey2] = {
-        n: openStats2.n,
-        mean: openStats2.mean,
-        stdDev: openStats2.stdDev,
-        range: openStats2.range,
-        usl: openLimits.上限值,
-        lsl: openLimits.下限值,
-        ucl: openUcl2,
-        lcl: openLcl2,
-        outliers: openOutliers2.length,
-        cpu: openCpu2,
-        cpk: openCpk2,
-        singleSided: false,
-        measurements: data.開啟.測量值2
-    };
-    
-    phaseBreakdown[openKey2] = {
-        project: instrument,
-        operation: "開啟",
-        group: measurer,
-        methodOrder: data.測量手法順序,
-        measurement: "測量值2",
-        n: openStats2.n,
-        mean: openStats2.mean,
-        stdDev: openStats2.stdDev,
-        range: openStats2.range,
-        min: openStats2.min,
-        max: openStats2.max,
-        usl: openLimits.上限值,
-        lsl: openLimits.下限值,
-        ucl: openUcl2,
-        lcl: openLcl2,
-        outliers: openOutliers2.length,
-        outliersValues: openOutliers2.map(o => o.value),
-        outliersDiagnosis: openOutliers2,
-        cpu: openCpu2,
-        cpl: openCpl2,
-        cpk: openCpk2,
-        singleSided: false,
-        measurements: data.開啟.測量值2
+        measurements: data.量測值3
     };
 });
 
 let currentSection = 'overview';
-let selectedProject = '20240304A';
-let selectedOperation = '閉合';
+let selectedProject = '21B652G';
 let selectedMeasurer = '涂X騰'; // 預設量測者為涂X騰
-let selectedMeasurement = '測量值1';
-let selectedGroupKey = '20240304A-涂X騰-閉合';
+let selectedMeasurement = '量測值1';
+let selectedGroupKey = '21B652G-涂X騰-量測值1';
 
 // 直方圖變數
-let selectedHistogramProject = '20240304A';
-let selectedHistogramOperation = '閉合';
+let selectedHistogramProject = '21B652G';
 let selectedHistogramGroup = '涂X騰';
-let selectedHistogramMeasurement = '測量值1';
+let selectedHistogramMeasurement = '量測值1';
 
 // 散佈圖變數
-let selectedScatterProject = '20240304A';
-let selectedScatterOperation = '閉合';
+let selectedScatterProject = '21B652G';
 let selectedScatterGroup = '涂X騰';
-let selectedScatterX = '測量值1';
-let selectedScatterY = '測量值2';
+let selectedScatterX = '量測值1';
+let selectedScatterY = '量測值2';
 
-const projects = ['20240304A', '20240304B', '20240304C', '20250224A'];
-const operations = ['閉合', '開啟'];
+const projects = ['21B652G', '21B653G', '23B531G', '23B532G'];
 
 let controlChart = null;
 let histogramChart = null;
@@ -480,8 +454,8 @@ function showSection(sectionId) {
 
 function selectProject(project) {
     selectedProject = project;
-    // 檢查當前選擇的量測者是否在新專案中可用
-    const availableMeasurers = getAvailableMeasurers(project, selectedOperation);
+    // 檢查當前選擇的量測者是否在新儀器編號中可用
+    const availableMeasurers = getAvailableMeasurers(project);
     // 如果當前量測者不可用，則嘗試使用涂X騰，如果涂X騰也不可用，則使用第一個可用的量測者
     if (!availableMeasurers.includes(selectedMeasurer)) {
         if (availableMeasurers.includes('涂X騰')) {
@@ -497,30 +471,10 @@ function selectProject(project) {
     updateControlChart();
 }
 
-function selectOperation(operation) {
-    selectedOperation = operation;
-    // 檢查當前選擇的量測者是否在新操作中可用
-    const availableMeasurers = getAvailableMeasurers(selectedProject, operation);
-    // 如果當前量測者不可用，則嘗試使用涂X騰，如果涂X騰也不可用，則使用第一個可用的量測者
-    if (!availableMeasurers.includes(selectedMeasurer)) {
-        if (availableMeasurers.includes('涂X騰')) {
-            selectedMeasurer = '涂X騰';
-        } else if (availableMeasurers.length > 0) {
-            selectedMeasurer = availableMeasurers[0];
-        } else {
-            selectedMeasurer = null;
-        }
-    }
-    selectedMeasurement = '測量值1'; // 設定預設測量值
-    
-    updateActiveButtons('#operationButtons .control-btn', operation);
-    initializeControls(); // 重新初始化控制面板
-    updateControlChart();
-}
 
 function selectMeasurer(measurer) {
     selectedMeasurer = measurer;
-    selectedMeasurement = '測量值1'; // 設定預設測量值
+    selectedMeasurement = '量測值1'; // 設定預設測量值
     
     updateActiveButtons('#groupButtons .control-btn', measurer);
     initializeControls(); // 重新初始化控制面板
@@ -536,8 +490,8 @@ function selectMeasurement(measurement) {
 // 直方圖選擇函數
 function selectHistogramProject(project) {
     selectedHistogramProject = project;
-    // 檢查當前選擇的量測者是否在新專案中可用
-    const availableMeasurers = getAvailableMeasurers(project, selectedHistogramOperation);
+    // 檢查當前選擇的量測者是否在新儀器編號中可用
+    const availableMeasurers = getAvailableMeasurers(project);
     if (!availableMeasurers.includes(selectedHistogramGroup)) {
         if (availableMeasurers.includes('涂X騰')) {
             selectedHistogramGroup = '涂X騰';
@@ -552,29 +506,9 @@ function selectHistogramProject(project) {
     updateHistogram();
 }
 
-function selectHistogramOperation(operation) {
-    selectedHistogramOperation = operation;
-    // 檢查當前選擇的量測者是否在新操作中可用
-    const availableMeasurers = getAvailableMeasurers(selectedHistogramProject, operation);
-    if (!availableMeasurers.includes(selectedHistogramGroup)) {
-        if (availableMeasurers.includes('涂X騰')) {
-            selectedHistogramGroup = '涂X騰';
-        } else if (availableMeasurers.length > 0) {
-            selectedHistogramGroup = availableMeasurers[0];
-        } else {
-    selectedHistogramGroup = null;
-        }
-    }
-    selectedHistogramMeasurement = '測量值1'; // 設定預設測量值
-    
-    updateActiveButtons('#histogramOperationButtons .control-btn', operation);
-    initializeHistogramControls(); // 重新初始化控制面板
-    updateHistogram();
-}
-
 function selectHistogramGroup(group) {
     selectedHistogramGroup = group;
-    selectedHistogramMeasurement = '測量值1'; // 設定預設測量值
+    selectedHistogramMeasurement = '量測值1'; // 設定預設測量值
     
     updateActiveButtons('#histogramGroupButtons .control-btn', group);
     initializeHistogramControls(); // 重新初始化控制面板
@@ -590,8 +524,8 @@ function selectHistogramMeasurement(measurement) {
 // 散佈圖選擇函數
 function selectScatterProject(project) {
     selectedScatterProject = project;
-    // 檢查當前選擇的量測者是否在新專案中可用
-    const availableMeasurers = getAvailableMeasurers(project, selectedScatterOperation);
+    // 檢查當前選擇的量測者是否在新儀器編號中可用
+    const availableMeasurers = getAvailableMeasurers(project);
     if (!availableMeasurers.includes(selectedScatterGroup)) {
         if (availableMeasurers.includes('涂X騰')) {
             selectedScatterGroup = '涂X騰';
@@ -606,31 +540,11 @@ function selectScatterProject(project) {
     updateScatterPlot();
 }
 
-function selectScatterOperation(operation) {
-    selectedScatterOperation = operation;
-    // 檢查當前選擇的量測者是否在新操作中可用
-    const availableMeasurers = getAvailableMeasurers(selectedScatterProject, operation);
-    if (!availableMeasurers.includes(selectedScatterGroup)) {
-        if (availableMeasurers.includes('涂X騰')) {
-            selectedScatterGroup = '涂X騰';
-        } else if (availableMeasurers.length > 0) {
-            selectedScatterGroup = availableMeasurers[0];
-        } else {
-    selectedScatterGroup = null;
-        }
-    }
-    selectedScatterX = '測量值1'; // 設定預設測量值
-    selectedScatterY = '測量值2'; // 設定預設測量值
-    
-    updateActiveButtons('#scatterOperationButtons .control-btn', operation);
-    initializeScatterControls(); // 重新初始化控制面板
-    updateScatterPlot();
-}
 
 function selectScatterGroup(group) {
     selectedScatterGroup = group;
-    selectedScatterX = '測量值1'; // 設定預設測量值
-    selectedScatterY = '測量值2'; // 設定預設測量值
+    selectedScatterX = '量測值1'; // 設定預設測量值
+    selectedScatterY = '量測值2'; // 設定預設測量值
     
     updateActiveButtons('#scatterGroupButtons .control-btn', group);
     initializeScatterControls(); // 重新初始化控制面板
@@ -674,14 +588,16 @@ function updateControlChart() {
     console.log('Selected Measurer:', selectedMeasurer);
     console.log('Selected Measurement:', selectedMeasurement);
     
-    // 根據操作和測量值選擇決定使用哪個數據
+    // 根據測量值選擇決定使用哪個數據
     let dataKey;
-    if (selectedMeasurement === '測量值1') {
-        dataKey = `${selectedProject}-${selectedMeasurer}-${selectedOperation}-測量值1`;
-    } else if (selectedMeasurement === '測量值2') {
-        dataKey = `${selectedProject}-${selectedMeasurer}-${selectedOperation}-測量值2`;
+    if (selectedMeasurement === '量測值1') {
+        dataKey = `${selectedProject}-${selectedMeasurer}-量測值1`;
+    } else if (selectedMeasurement === '量測值2') {
+        dataKey = `${selectedProject}-${selectedMeasurer}-量測值2`;
+    } else if (selectedMeasurement === '量測值3') {
+        dataKey = `${selectedProject}-${selectedMeasurer}-量測值3`;
     } else {
-        dataKey = `${selectedProject}-${selectedMeasurer}-${selectedOperation}`;
+        dataKey = `${selectedProject}-${selectedMeasurer}-量測值1`;
     }
     
     console.log('Data Key:', dataKey);
@@ -698,12 +614,14 @@ function updateControlChart() {
         let title;
         const methodOrder = data.methodOrder || ['A', 'B', 'C', 'D']; // 預設順序
         const methodString = methodOrder.join(', ');
-        if (selectedMeasurement === '測量值1') {
-            title = `${selectedProject}-${selectedMeasurer}-${selectedOperation}-測量值1 (手法${methodString}) 管制圖`;
-        } else if (selectedMeasurement === '測量值2') {
-            title = `${selectedProject}-${selectedMeasurer}-${selectedOperation}-測量值2 (手法${methodString}) 管制圖`;
+        if (selectedMeasurement === '量測值1') {
+            title = `${selectedProject}-${selectedMeasurer}-量測值1 (手法${methodString}) 管制圖`;
+        } else if (selectedMeasurement === '量測值2') {
+            title = `${selectedProject}-${selectedMeasurer}-量測值2 (手法${methodString}) 管制圖`;
+        } else if (selectedMeasurement === '量測值3') {
+            title = `${selectedProject}-${selectedMeasurer}-量測值3 (手法${methodString}) 管制圖`;
         } else {
-            title = `${selectedProject}-${selectedMeasurer}-${selectedOperation} (手法${methodString}) 管制圖`;
+            title = `${selectedProject}-${selectedMeasurer}-量測值1 (手法${methodString}) 管制圖`;
         }
         titleElement.textContent = title;
     }
@@ -728,7 +646,7 @@ function updateControlChart() {
         if (data.outliersValues && data.outliersValues.includes(value)) {
             return '#ef4444'; // 紅色標記異常值
         }
-        return getMeasurementColor(selectedMeasurement);
+        return '#2563eb'; // 一般點改為藍色
     });
     
     controlChart = new Chart(ctx, {
@@ -739,10 +657,12 @@ function updateControlChart() {
                 {
                     label: '測量值',
                     data: measurementData,
-                    borderColor: getMeasurementColor(selectedMeasurement),
+                    borderColor: '#2563eb', // 折線改為藍色
                     backgroundColor: pointColors.map(color => color + '40'),
                     pointBackgroundColor: pointColors,
+                    pointBorderColor: pointColors, // 外框顏色與點顏色一致（異常為紅色）
                     borderWidth: 2,
+                    pointBorderWidth: 2,
                     pointRadius: 5,
                     fill: false
                 },
@@ -799,7 +719,8 @@ function updateControlChart() {
                             const methodOrder = data.methodOrder || ['A', 'B', 'C', 'D'];
                             const index = tooltipItems[0].dataIndex;
                             const method = methodOrder[index] || 'A';
-                            return `${tooltipItems[0].label} - 測量手法${method}`;
+                            const desc = getMethodDescription(method);
+                            return `${tooltipItems[0].label} - 手法${method}${desc ? '（' + desc + '）' : ''}`;
                         },
                         afterBody: function(tooltipItems) {
                             const value = tooltipItems[0].raw;
@@ -837,16 +758,25 @@ function updateControlChart() {
 
 function updateHistogram() {
     console.log('Updating histogram...');
+    console.log('Selected Histogram Project:', selectedHistogramProject);
+    console.log('Selected Histogram Group:', selectedHistogramGroup);
+    console.log('Selected Histogram Measurement:', selectedHistogramMeasurement);
     
     // 構建選擇的群組鍵 - 使用新的數據結構
     let groupKey;
-    if (selectedHistogramMeasurement === '測量值1') {
-        groupKey = `${selectedHistogramProject}-${selectedHistogramGroup}-${selectedHistogramOperation}-測量值1`;
-    } else if (selectedHistogramMeasurement === '測量值2') {
-        groupKey = `${selectedHistogramProject}-${selectedHistogramGroup}-${selectedHistogramOperation}-測量值2`;
+    if (selectedHistogramMeasurement === '量測值1') {
+        groupKey = `${selectedHistogramProject}-${selectedHistogramGroup}-量測值1`;
+    } else if (selectedHistogramMeasurement === '量測值2') {
+        groupKey = `${selectedHistogramProject}-${selectedHistogramGroup}-量測值2`;
+    } else if (selectedHistogramMeasurement === '量測值3') {
+        groupKey = `${selectedHistogramProject}-${selectedHistogramGroup}-量測值3`;
     } else {
-        groupKey = `${selectedHistogramProject}-${selectedHistogramGroup}-${selectedHistogramOperation}`;
+        groupKey = `${selectedHistogramProject}-${selectedHistogramGroup}-量測值1`;
     }
+    
+    console.log('Histogram Group Key:', groupKey);
+    console.log('Available keys in phaseBreakdown:', Object.keys(phaseBreakdown));
+    console.log('Sample keys:', Object.keys(phaseBreakdown).slice(0, 5));
     
     const data = phaseBreakdown[groupKey];
     
@@ -855,9 +785,11 @@ function updateHistogram() {
         return;
     }
     
+    console.log('Histogram data found:', data);
+    
     const titleElement = document.getElementById('histogramTitle');
     if (titleElement) {
-        let title = `${selectedHistogramProject}-${selectedHistogramGroup}-${selectedHistogramOperation}`;
+        let title = `${selectedHistogramProject}-${selectedHistogramGroup}`;
         if (selectedHistogramMeasurement) {
             title += `-${selectedHistogramMeasurement}`;
         }
@@ -877,6 +809,13 @@ function updateHistogram() {
     
     // 使用實際測量數據
     const histogramData = data.measurements || generateMeasurementData(data.mean, data.stdDev, 100);
+    const skew = computeSkewness(histogramData);
+    
+    const info = document.getElementById('histogramPhaseInfo');
+    if (info) {
+        const shape = Math.abs(skew) < 0.5 ? '接近常態分布，品質穩定' : (skew > 0 ? '右偏，可能存在較大值尾端' : '左偏，可能存在較小值尾端');
+        info.textContent = `顯示各測量項目數據分布形狀：${shape}（偏態 ${skew.toFixed(2)}）。`;
+    }
     const bins = createHistogramBins(histogramData, 10);
     
     histogramChart = new Chart(ctx, {
@@ -920,17 +859,21 @@ function updateHistogram() {
 
 function updateScatterPlot() {
     console.log('Updating scatter plot...');
+    console.log('Selected Scatter Project:', selectedScatterProject);
+    console.log('Selected Scatter Group:', selectedScatterGroup);
+    console.log('Selected Scatter X:', selectedScatterX);
+    console.log('Selected Scatter Y:', selectedScatterY);
     
     const titleElement = document.getElementById('scatterTitle');
     if (titleElement) {
-        let title = `${selectedScatterProject}-${selectedScatterGroup}-${selectedScatterOperation}`;
+        let title = `${selectedScatterProject}-${selectedScatterGroup}`;
         title += `-${selectedScatterX} vs ${selectedScatterY} 散布圖分析`;
         titleElement.textContent = title;
     }
     
     const phaseInfo = document.getElementById('scatterPhaseInfo');
     if (phaseInfo) {
-        phaseInfo.textContent = `觀察${selectedScatterX}與${selectedScatterY}之間的相關性，數據呈現良好一致性，反映測量品質穩定。`;
+        phaseInfo.textContent = `觀察${selectedScatterX}與${selectedScatterY}之間的相關性...`;
     }
     
     if (scatterChart) {
@@ -948,43 +891,104 @@ function updateScatterPlot() {
     
     // 構建X軸和Y軸的群組鍵 - 使用新的數據結構
     let xGroupKey, yGroupKey;
-    if (selectedScatterX === '測量值1') {
-        xGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-${selectedScatterOperation}-測量值1`;
-    } else if (selectedScatterX === '測量值2') {
-        xGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-${selectedScatterOperation}-測量值2`;
+    if (selectedScatterX === '量測值1') {
+        xGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-量測值1`;
+    } else if (selectedScatterX === '量測值2') {
+        xGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-量測值2`;
+    } else if (selectedScatterX === '量測值3') {
+        xGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-量測值3`;
     } else {
-        xGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-${selectedScatterOperation}`;
+        xGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-量測值1`;
     }
     
-    if (selectedScatterY === '測量值1') {
-        yGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-${selectedScatterOperation}-測量值1`;
-    } else if (selectedScatterY === '測量值2') {
-        yGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-${selectedScatterOperation}-測量值2`;
+    if (selectedScatterY === '量測值1') {
+        yGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-量測值1`;
+    } else if (selectedScatterY === '量測值2') {
+        yGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-量測值2`;
+    } else if (selectedScatterY === '量測值3') {
+        yGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-量測值3`;
     } else {
-        yGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-${selectedScatterOperation}`;
+        yGroupKey = `${selectedScatterProject}-${selectedScatterGroup}-量測值1`;
     }
+    
+    console.log('X Group Key:', xGroupKey);
+    console.log('Y Group Key:', yGroupKey);
+    console.log('Available keys in phaseBreakdown:', Object.keys(phaseBreakdown));
     
     const xData = phaseBreakdown[xGroupKey];
     const yData = phaseBreakdown[yGroupKey];
     
+    console.log('X Data:', xData);
+    console.log('Y Data:', yData);
+    
     if (xData && yData && xData.measurements && yData.measurements) {
         const minLength = Math.min(xData.measurements.length, yData.measurements.length);
+        // 優先使用X的手法順序，沒有就退回預設 A-D
+        const methodOrder = (xData.methodOrder && xData.methodOrder.length === minLength)
+            ? xData.methodOrder
+            : ['A','B','C','D'].slice(0, minLength);
         for (let i = 0; i < minLength; i++) {
             dataPoints.push({
                 x: xData.measurements[i],
                 y: yData.measurements[i],
-                project: selectedScatterProject
+                project: selectedScatterProject,
+                method: methodOrder[i]
             });
         }
     }
     
-    // 計算相關係數
-    const correlation = 0.95; // 根據實際數據品質設定為0.95
+    // 計算相關係數（以實際點計算）
+    let correlation = NaN;
+    if (dataPoints.length >= 2) {
+        correlation = calculateCorrelation(dataPoints);
+    }
     
     // 更新統計資訊
     const correlationElement = document.getElementById('correlationValue');
     if (correlationElement) {
-        correlationElement.textContent = correlation.toFixed(2);
+        correlationElement.textContent = isFinite(correlation) ? correlation.toFixed(2) : '—';
+    }
+    // 動態更新關聯分析說明
+    if (phaseInfo) {
+        if (!isFinite(correlation)) {
+            phaseInfo.textContent = `資料點數不足，暫無法評估 ${selectedScatterX} 與 ${selectedScatterY} 的相關性。`;
+        } else {
+            let levelText = '';
+            if (Math.abs(correlation) >= 0.8) levelText = '高度相關，品質穩定';
+            else if (Math.abs(correlation) >= 0.5) levelText = '中度相關，整體一致性良好';
+            else levelText = '低度相關，建議持續觀察';
+            phaseInfo.textContent = `測量項目關聯分析：r = ${correlation.toFixed(2)}，${levelText}。`;
+        }
+    }
+
+    // 相關性分析卡片細節（與上方敘述一致）
+    const consistencyDetails = document.getElementById('consistencyDetails');
+    if (consistencyDetails) {
+        if (!isFinite(correlation)) {
+            consistencyDetails.innerHTML = `• 相關係數: —<br>• 分析: 資料點不足<br>• 建議: 擴充樣本後再評估`;
+        } else {
+            const strength = Math.abs(correlation) >= 0.8 ? '高度相關' : (Math.abs(correlation) >= 0.5 ? '中度相關' : '低度相關');
+            const advice = Math.abs(correlation) >= 0.5 ? '維持現有測量標準' : '持續觀察並檢視手法一致性';
+            consistencyDetails.innerHTML = `• 相關係數: ${correlation.toFixed(2)}<br>• 分析: ${strength}<br>• 建議: ${advice}`;
+        }
+    }
+
+    // 品質狀況評估（依目前選擇的 X/Y 群組異常率）
+    const riskLevelEl = document.getElementById('riskLevel');
+    const riskDetails = document.getElementById('riskDetails');
+    if (riskLevelEl && riskDetails) {
+        let localOutliers = 0;
+        let localN = 0;
+        if (xData) { localOutliers += (xData.outliers || 0); localN += (xData.n || 0); }
+        if (yData) { localOutliers += (yData.outliers || 0); localN += (yData.n || 0); }
+        const localRate = localN > 0 ? (localOutliers / localN) : 0;
+        let label = '品質優良';
+        let color = '#38a169';
+        if (localRate > 0.05) { label = '需要改善'; color = '#f59e0b'; }
+        else if (localRate > 0.02) { label = '良好'; color = '#10b981'; }
+        riskLevelEl.textContent = label;
+        riskLevelEl.style.color = color;
+        riskDetails.innerHTML = `• 異常點: ${localOutliers} / ${localN} (${(localRate*100).toFixed(1)}%)<br>• 測量手法: A–D 動態分析<br>• 建議: ${label === '需要改善' ? '檢視手法與接觸點一致性' : '維持現有測量標準'}`;
     }
     
     scatterChart = new Chart(ctx, {
@@ -995,8 +999,8 @@ function updateScatterPlot() {
                 data: dataPoints,
                 backgroundColor: dataPoints.map(point => getProjectColor(point.project) + '60'),
                 borderColor: dataPoints.map(point => getProjectColor(point.project)),
-                pointRadius: 4,
-                pointHoverRadius: 6
+                pointRadius: 5,
+                pointHoverRadius: 7
             }]
         },
         options: {
@@ -1016,7 +1020,8 @@ function updateScatterPlot() {
                     callbacks: {
                         title: function(context) {
                             const point = dataPoints[context[0].dataIndex];
-                            return `${point.project}`;
+                            const desc = point.method ? getMethodDescription(point.method) : '';
+                            return `${point.project} - 手法${point.method || '-'}${desc ? '（' + desc + '）' : ''}`;
                         },
                         label: function(context) {
                             const xText = getMeasurementText(selectedScatterX);
@@ -1036,9 +1041,7 @@ function updateScatterPlot() {
                         text: `${getMeasurementText(selectedScatterX)}`,
                         font: { size: 12, weight: 'bold' }
                     },
-                    grid: {
-                        color: '#f3f4f6'
-                    }
+                    grid: { color: '#f3f4f6' }
                 },
                 y: {
                     title: {
@@ -1046,9 +1049,7 @@ function updateScatterPlot() {
                         text: `${getMeasurementText(selectedScatterY)}`,
                         font: { size: 12, weight: 'bold' }
                     },
-                    grid: {
-                        color: '#f3f4f6'
-                    }
+                    grid: { color: '#f3f4f6' }
                 }
             }
         }
@@ -1071,20 +1072,42 @@ function updateParetoChart() {
     
     const ctx = canvas.getContext('2d');
     
-    // 柏拉圖數據 - 反映各測量品質因素
-    const paretoData = [
-        { cause: '測量手法標準化', count: 4, percentage: 35.0 },
-        { cause: '量測者技能一致', count: 3, percentage: 25.0 },
-        { cause: '儀器編號穩定', count: 2, percentage: 20.0 },
-        { cause: '測量環境控制', count: 2, percentage: 15.0 },
-        { cause: '其他品質因素', count: 1, percentage: 5.0 }
-    ];
+    // 從當前 phaseBreakdown 的異常診斷動態生成柏拉圖資料
+    const diagnosisCountMap = new Map();
+    let totalOutlierCount = 0;
+    
+    Object.values(phaseBreakdown).forEach(entry => {
+        const diagnoses = entry.outliersDiagnosis || [];
+        diagnoses.forEach(d => {
+            const key = d.diagnosis || '其他品質因素';
+            diagnosisCountMap.set(key, (diagnosisCountMap.get(key) || 0) + 1);
+            totalOutlierCount += 1;
+        });
+    });
+    
+    // 若沒有任何異常診斷資料，提供預設的空資料以保持圖表渲染
+    let paretoData;
+    if (totalOutlierCount === 0 || diagnosisCountMap.size === 0) {
+        paretoData = [
+            { cause: '無異常（樣本內）', count: 0, percentage: 0 }
+        ];
+    } else {
+        // 將 Map 轉為陣列，依 count 由高到低排序
+        const sorted = Array.from(diagnosisCountMap.entries())
+            .sort((a, b) => b[1] - a[1])
+            .map(([cause, count]) => ({
+                cause,
+                count,
+                percentage: totalOutlierCount > 0 ? (count / totalOutlierCount) * 100 : 0
+            }));
+        paretoData = sorted;
+    }
     
     // 計算累積百分比
     let cumulative = 0;
     const cumulativeData = paretoData.map(item => {
         cumulative += item.percentage;
-        return cumulative;
+        return Number(cumulative.toFixed(2));
     });
     
     paretoChart = new Chart(ctx, {
@@ -1094,7 +1117,7 @@ function updateParetoChart() {
             datasets: [
                 {
                     type: 'bar',
-                    label: '品質貢獻度',
+                    label: '品質貢獻度（次數）',
                     data: paretoData.map(item => item.count),
                     backgroundColor: '#38a16980',
                     borderColor: '#38a169',
@@ -1105,7 +1128,7 @@ function updateParetoChart() {
                     type: 'line',
                     label: '累積百分比',
                     data: cumulativeData,
-                    borderColor: '#38a169',
+                    borderColor: '#ef4444',
                     backgroundColor: '#ef444420',
                     borderWidth: 3,
                     pointBackgroundColor: '#ef4444',
@@ -1129,13 +1152,24 @@ function updateParetoChart() {
                         padding: 10,
                         font: { size: 11 }
                     }
+                },
+                tooltip: {
+                    callbacks: {
+                        afterBody: function(context) {
+                            // 顯示單項累積百分比
+                            const idx = context[0].dataIndex;
+                            const cumulativePct = cumulativeData[idx];
+                            const pct = paretoData[idx]?.percentage ?? 0;
+                            return [`單項佔比: ${pct.toFixed(1)}%`, `累積: ${cumulativePct.toFixed(1)}%`];
+                        }
+                    }
                 }
             },
             scales: {
                 x: {
                     title: {
                         display: true,
-                        text: '品質因素',
+                        text: '品質要因（依出現頻次排序）',
                         font: { size: 12, weight: 'bold' },
                         color: axisTitleColor
                     },
@@ -1151,13 +1185,11 @@ function updateParetoChart() {
                     position: 'left',
                     title: {
                         display: true,
-                        text: '品質貢獻度',
+                        text: '次數',
                         font: { size: 12, weight: 'bold' },
                         color: axisTitleColor
                     },
-                    ticks: {
-                        color: axisTitleColor
-                    },
+                    ticks: { color: axisTitleColor },
                     beginAtZero: true
                 },
                 y1: {
@@ -1170,23 +1202,53 @@ function updateParetoChart() {
                         font: { size: 12, weight: 'bold' },
                         color: axisTitleColor
                     },
-                    ticks: {
-                        color: axisTitleColor
-                    },
+                    ticks: { color: axisTitleColor },
                     min: 0,
                     max: 100,
-                    grid: {
-                        drawOnChartArea: false
-                    }
+                    grid: { drawOnChartArea: false }
                 }
             }
         }
     });
+
+    // 動態更新柏拉圖下方三張卡片
+    const majorValue = document.getElementById('paretoMajorValue');
+    const majorSubtitle = document.getElementById('paretoMajorSubtitle');
+    const majorDetails = document.getElementById('paretoMajorDetails');
+    const scopeValue = document.getElementById('paretoScopeValue');
+    const scopeDetails = document.getElementById('paretoScopeDetails');
+    const maintainValue = document.getElementById('paretoMaintainValue');
+    const maintainDetails = document.getElementById('paretoMaintainDetails');
+
+    const labels = paretoData.map(d => d.cause);
+    const percentages = paretoData.map(d => d.percentage);
+    if (majorValue && majorSubtitle && majorDetails) {
+        majorValue.textContent = labels[0] ? labels[0] : '—';
+        majorSubtitle.textContent = labels[0] ? `佔比 ${percentages[0].toFixed ? percentages[0].toFixed(1) : percentages[0]}%` : '—';
+        majorDetails.innerHTML = `• Top 1: ${labels[0] || '—'}<br>• Top 2: ${labels[1] || '—'}<br>• Top 3: ${labels[2] || '—'}`;
+    }
+
+    if (scopeValue && scopeDetails) {
+        const measurerCount = new Set(measurementData.map(r => r.量測者)).size;
+        const instrumentCount = new Set(measurementData.map(r => r.儀器編號)).size;
+        // 以全域異常率
+        let totalN = 0, totalOut = 0;
+        Object.values(spcData).forEach(d => { totalN += (d.n || 0); totalOut += (d.outliers || 0); });
+        const rate = totalN > 0 ? (totalOut / totalN) : 0;
+        scopeValue.textContent = '全量測者/儀器';
+        scopeDetails.innerHTML = `• 量測者: ${measurerCount} 位<br>• 儀器編號: ${instrumentCount} 台<br>• 測量項目: 量測值1/2/3<br>• 異常率: ${(rate*100).toFixed(1)}%`;
+    }
+
+    if (maintainValue && maintainDetails) {
+        const top1 = labels[0] || '手法標準化';
+        maintainValue.textContent = '測量維持';
+        maintainDetails.innerHTML = `1. ${top1}<br>2. 量測者培訓與一致性<br>3. 設備校準與維護`;
+    }
 }
 
 // ==================== 工具函數 ====================
 // 獲取可用量測者列表
-function getAvailableMeasurers(project, operation) {
+function getAvailableMeasurers(project) {
     const measurers = new Set();
     measurementData.forEach(record => {
         if (record.儀器編號 === project) {
@@ -1246,10 +1308,24 @@ function createHistogramBins(data, binCount) {
     return bins;
 }
 
+// 簡易偏態係數計算（Fisher-Pearson，樣本版）
+function computeSkewness(values) {
+    if (!values || values.length < 3) return 0;
+    const n = values.length;
+    const mean = values.reduce((s, v) => s + v, 0) / n;
+    const d = values.map(v => v - mean);
+    const m2 = d.reduce((s, v) => s + v * v, 0) / (n - 1);
+    const m3 = d.reduce((s, v) => s + v * v * v, 0) / n;
+    const s = Math.sqrt(m2);
+    if (s === 0) return 0;
+    return (Math.sqrt(n * (n - 1)) / (n - 2)) * (m3 / Math.pow(s, 3));
+}
+
 function getMeasurementColor(measurement) {
     switch(measurement) {
-        case '測量值1': return '#e53e3e'; // 紅色 - 測量值1
-        case '測量值2': return '#e53e3e'; // 紅色 - 測量值2
+        case '量測值1': return '#e53e3e'; // 紅色 - 量測值1
+        case '量測值2': return '#38a169'; // 綠色 - 量測值2
+        case '量測值3': return '#3182ce'; // 藍色 - 量測值3
         case 'actionTime': return '#e53e3e';
         case 'phaseDiff': return '#38a169'; 
         case 'speed': return '#3182ce';
@@ -1267,8 +1343,9 @@ function getProjectColor(project) {
 
 function getMeasurementText(measurement) {
     switch(measurement) {
-        case '測量值1': return '測量值1';
-        case '測量值2': return '測量值2';
+        case '量測值1': return '量測值1';
+        case '量測值2': return '量測值2';
+        case '量測值3': return '量測值3';
         case 'actionTime': return '動作時間';
         case 'phaseDiff': return '三相相差時間'; 
         case 'speed': return '速度';
@@ -1295,7 +1372,7 @@ function calculateCorrelation(dataPoints) {
 
 // ==================== 初始化 ====================
 function initializeControls() {
-    // 專案按鈕
+    // 儀器編號按鈕
     const projectButtons = document.getElementById('projectButtons');
     if (projectButtons) {
         projectButtons.innerHTML = '';
@@ -1308,27 +1385,14 @@ function initializeControls() {
         });
     }
     
-    // 操作按鈕
-    const operationButtons = document.getElementById('operationButtons');
-    if (operationButtons) {
-        operationButtons.innerHTML = '';
-        operations.forEach(operation => {
-            const btn = document.createElement('button');
-            btn.className = `control-btn ${operation === selectedOperation ? 'active' : ''}`;
-            btn.textContent = operation;
-            btn.dataset.value = operation;
-            btn.addEventListener('click', () => selectOperation(operation));
-            operationButtons.appendChild(btn);
-        });
-    }
     
-    // 量測者按鈕 - 根據選擇的專案和操作顯示可用的量測者
+    // 量測者按鈕 - 根據選擇的儀器編號顯示可用的量測者
     const groupButtons = document.getElementById('groupButtons');
     if (groupButtons) {
         groupButtons.innerHTML = '';
         
-        // 獲取當前專案和操作的量測者列表
-        const availableMeasurers = getAvailableMeasurers(selectedProject, selectedOperation);
+        // 獲取當前儀器編號的量測者列表
+        const availableMeasurers = getAvailableMeasurers(selectedProject);
         
         availableMeasurers.forEach(measurer => {
                 const btn = document.createElement('button');
@@ -1345,11 +1409,11 @@ function initializeControls() {
         }
     }
     
-    // 測量值按鈕 - 測量值1和測量值2
+    // 測量值按鈕 - 量測值1、量測值2、量測值3
     const measurementButtons = document.getElementById('measurementButtons');
     if (measurementButtons) {
         measurementButtons.innerHTML = '';
-        const measurements = ['測量值1', '測量值2'];
+        const measurements = ['量測值1', '量測值2', '量測值3'];
         
         measurements.forEach(measurement => {
             const btn = document.createElement('button');
@@ -1364,7 +1428,7 @@ function initializeControls() {
 
 // 直方圖控制面板初始化
 function initializeHistogramControls() {
-    // 專案按鈕
+    // 儀器編號按鈕
     const projectButtons = document.getElementById('histogramProjectButtons');
     if (projectButtons) {
         projectButtons.innerHTML = '';
@@ -1377,25 +1441,11 @@ function initializeHistogramControls() {
         });
     }
     
-    // 操作按鈕
-    const operationButtons = document.getElementById('histogramOperationButtons');
-    if (operationButtons) {
-        operationButtons.innerHTML = '';
-        operations.forEach(operation => {
-            const btn = document.createElement('button');
-            btn.className = `control-btn ${operation === selectedHistogramOperation ? 'active' : ''}`;
-            btn.textContent = operation;
-            btn.dataset.value = operation;
-            btn.addEventListener('click', () => selectHistogramOperation(operation));
-            operationButtons.appendChild(btn);
-        });
-    }
-    
     // 量測者按鈕
     const groupButtons = document.getElementById('histogramGroupButtons');
     if (groupButtons) {
         groupButtons.innerHTML = '';
-        const availableMeasurers = getAvailableMeasurers(selectedHistogramProject, selectedHistogramOperation);
+        const availableMeasurers = getAvailableMeasurers(selectedHistogramProject);
         availableMeasurers.forEach(measurer => {
                 const btn = document.createElement('button');
             btn.className = `control-btn ${measurer === selectedHistogramGroup ? 'active' : ''}`;
@@ -1406,11 +1456,11 @@ function initializeHistogramControls() {
             });
     }
     
-    // 測量項目按鈕
+    // 測量值按鈕
     const measurementButtons = document.getElementById('histogramMeasurementButtons');
     if (measurementButtons) {
         measurementButtons.innerHTML = '';
-        const measurements = ['測量值1', '測量值2'];
+        const measurements = ['量測值1', '量測值2', '量測值3'];
         
         measurements.forEach(measurement => {
             const btn = document.createElement('button');
@@ -1425,7 +1475,7 @@ function initializeHistogramControls() {
 
 // 散佈圖控制面板初始化
 function initializeScatterControls() {
-    // 專案按鈕
+    // 儀器編號按鈕
     const projectButtons = document.getElementById('scatterProjectButtons');
     if (projectButtons) {
         projectButtons.innerHTML = '';
@@ -1438,25 +1488,11 @@ function initializeScatterControls() {
         });
     }
     
-    // 操作按鈕
-    const operationButtons = document.getElementById('scatterOperationButtons');
-    if (operationButtons) {
-        operationButtons.innerHTML = '';
-        operations.forEach(operation => {
-            const btn = document.createElement('button');
-            btn.className = `control-btn ${operation === selectedScatterOperation ? 'active' : ''}`;
-            btn.textContent = operation;
-            btn.dataset.value = operation;
-            btn.addEventListener('click', () => selectScatterOperation(operation));
-            operationButtons.appendChild(btn);
-        });
-    }
-    
     // 量測者按鈕
     const groupButtons = document.getElementById('scatterGroupButtons');
     if (groupButtons) {
         groupButtons.innerHTML = '';
-        const availableMeasurers = getAvailableMeasurers(selectedScatterProject, selectedScatterOperation);
+        const availableMeasurers = getAvailableMeasurers(selectedScatterProject);
         availableMeasurers.forEach(measurer => {
                 const btn = document.createElement('button');
             btn.className = `control-btn ${measurer === selectedScatterGroup ? 'active' : ''}`;
@@ -1467,11 +1503,11 @@ function initializeScatterControls() {
             });
     }
     
-    // X軸測量項目按鈕
+    // X軸測量值按鈕
     const xMeasurementButtons = document.getElementById('scatterXMeasurementButtons');
     if (xMeasurementButtons) {
         xMeasurementButtons.innerHTML = '';
-        const measurements = ['測量值1', '測量值2'];
+        const measurements = ['量測值1', '量測值2', '量測值3'];
         
         measurements.forEach(measurement => {
             const btn = document.createElement('button');
@@ -1483,11 +1519,11 @@ function initializeScatterControls() {
         });
     }
     
-    // Y軸測量項目按鈕
+    // Y軸測量值按鈕
     const yMeasurementButtons = document.getElementById('scatterYMeasurementButtons');
     if (yMeasurementButtons) {
         yMeasurementButtons.innerHTML = '';
-        const measurements = ['測量值1', '測量值2'];
+        const measurements = ['量測值1', '量測值2', '量測值3'];
         
         measurements.forEach(measurement => {
             const btn = document.createElement('button');
@@ -1549,6 +1585,54 @@ function initializeOverviewTable() {
     });
 }
 
+function renderOutlierSummary() {
+    const tbody = document.getElementById('outlierSummaryList');
+    const countEl = document.getElementById('outlierSummaryCount');
+    if (!tbody || !countEl) return;
+    
+    tbody.innerHTML = '';
+    let total = 0;
+    
+    // 彙總所有 phaseBreakdown 的異常點
+    Object.keys(phaseBreakdown).forEach(key => {
+        const data = phaseBreakdown[key];
+        const [project, measurer] = key.split('-');
+        const measurement = data.measurement;
+        const usl = data.usl;
+        const lsl = data.lsl;
+        const mean = data.mean;
+        const std = data.stdDev;
+        const ucl = data.ucl;
+        const lcl = data.lcl;
+        const diagnoses = data.outliersDiagnosis || [];
+        
+        (data.outliersValues || []).forEach((val, idx) => {
+            const diag = diagnoses[idx]?.diagnosis || '異常值';
+            let basis = [];
+            if (typeof usl === 'number' && val > usl) basis.push(`> USL(${usl})`);
+            if (typeof lsl === 'number' && val < lsl) basis.push(`< LSL(${lsl})`);
+            if (typeof ucl === 'number' && val > ucl) basis.push(`> UCL(${ucl.toFixed(2)})`);
+            if (typeof lcl === 'number' && val < lcl) basis.push(`< LCL(${lcl.toFixed(2)})`);
+            if (basis.length === 0 && typeof mean === 'number' && typeof std === 'number') {
+                basis.push(`|x-μ|>3σ (μ=${mean.toFixed(2)}, σ=${std.toFixed(2)})`);
+            }
+            
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>${project}</td>
+                <td>${measurer}</td>
+                <td>${measurement}</td>
+                <td>${Number(val).toFixed(2)}</td>
+                <td>${diag}</td>
+                <td>${basis.join('、')}</td>
+            `;
+            total++;
+        });
+    });
+    
+    countEl.textContent = total;
+}
+
 function initializeStatisticsTable() {
     const tbody = document.querySelector('#statisticsTable tbody');
     if (!tbody) return;
@@ -1597,21 +1681,18 @@ function updateHeaderStats() {
         uniqueInstruments.add(record.儀器編號);
         
         // 計算每個記錄的測量值數量
-        if (record.閉合 && record.閉合.測量值1 !== null && record.閉合.測量值1 !== undefined) {
+        if (record.量測值1 !== null && record.量測值1 !== undefined) {
             totalMeasurements++;
         }
-        if (record.閉合 && record.閉合.測量值2 !== null && record.閉合.測量值2 !== undefined) {
+        if (record.量測值2 !== null && record.量測值2 !== undefined) {
             totalMeasurements++;
         }
-        if (record.開啟 && record.開啟.測量值1 !== null && record.開啟.測量值1 !== undefined) {
-            totalMeasurements++;
-        }
-        if (record.開啟 && record.開啟.測量值2 !== null && record.開啟.測量值2 !== undefined) {
+        if (record.量測值3 !== null && record.量測值3 !== undefined) {
             totalMeasurements++;
         }
     });
     
-    // 計算專案數（儀器編號的數量）
+    // 計算儀器編號數量
     const projectCount = uniqueInstruments.size;
     
     // 計算檔位數（量測者的數量）
@@ -1635,8 +1716,14 @@ function updateHeaderStats() {
     if (methodCountEl) methodCountEl.textContent = 4; // A、B、C、D 四種手法
     if (outlierCountEl) outlierCountEl.textContent = totalOutliers;
     
-    // 更新詳細統計資訊
+    // 更新詳細統計資訊 + 整體品質狀況動態等級
     const statsDetails = document.querySelector('.stats-details');
+    const systemAlertBox = document.getElementById('systemAlertBox');
+    const systemAlertTitle = document.getElementById('systemAlertTitle');
+    const systemAlertText = document.getElementById('systemAlertText');
+    const overallQualityCard = document.getElementById('overallQualityCard');
+    const overallQualityValue = document.getElementById('overallQualityValue');
+    const overallOutlierText = document.getElementById('overallOutlierText');
     if (statsDetails) {
         const outlierPercentage = totalMeasurements > 0 ? ((totalOutliers / totalMeasurements) * 100).toFixed(1) : 0;
         statsDetails.innerHTML = `
@@ -1645,9 +1732,161 @@ function updateHeaderStats() {
             • 測量者數：${measurerCount} 位<br>
             • 儀器數：${projectCount} 台<br>
             • 量測手法：4 種 (A、B、C、D)<br>
-            • 測量項目：閉合/開啟 動作時間<br>
+            • 測量項目：量測值1/量測值2/量測值3<br>
             • 品質主要集中在「測量手法標準化」與「量測者技能一致」
         `;
+    }
+
+    // 測量項目統計比較（整體平均與異常率）
+    const m1El = document.getElementById('meas1Summary');
+    const m2El = document.getElementById('meas2Summary');
+    const m3El = document.getElementById('meas3Summary');
+    const meas1Status = document.getElementById('meas1Status');
+    const meas2Status = document.getElementById('meas2Status');
+    const meas3Status = document.getElementById('meas3Status');
+    const meas1Details = document.getElementById('meas1Details');
+    const meas2Details = document.getElementById('meas2Details');
+    const meas3Details = document.getElementById('meas3Details');
+    if (m1El || m2El || m3El) {
+        const keys = Object.keys(phaseBreakdown);
+        const agg = {
+            '量測值1': { sum: 0, n: 0, outliers: 0 },
+            '量測值2': { sum: 0, n: 0, outliers: 0 },
+            '量測值3': { sum: 0, n: 0, outliers: 0 }
+        };
+        keys.forEach(k => {
+            const d = phaseBreakdown[k];
+            if (!d || !d.measurement) return;
+            if (!agg[d.measurement]) return;
+            // 使用群組平均與樣本數加權
+            if (typeof d.mean === 'number' && typeof d.n === 'number') {
+                agg[d.measurement].sum += d.mean * d.n;
+                agg[d.measurement].n += d.n;
+            }
+            agg[d.measurement].outliers += (d.outliers || 0);
+        });
+        const render = (el, key) => {
+            if (!el) return;
+            const a = agg[key];
+            const mean = a.n > 0 ? (a.sum / a.n) : NaN;
+            const rate = a.n > 0 ? (a.outliers / a.n) : 0;
+            el.innerHTML = `
+                <strong style="color: #38a169;">${key} (整體):</strong><br>
+                平均值: ${isFinite(mean) ? mean.toFixed(2) : '—'} μΩ<br>
+                標準值: 84.5 ~ 87.0 μΩ<br>
+                規格範圍: 78.7 ~ 96.2 μΩ<br>
+                異常率: ${(rate*100).toFixed(1)}%
+            `;
+        };
+        render(m1El, '量測值1');
+        render(m2El, '量測值2');
+        render(m3El, '量測值3');
+
+        // 同步底部兩張卡片（量測值1/2 分析）
+        const syncMeasCard = (statusEl, detailsEl, key) => {
+            if (!statusEl || !detailsEl) return;
+            const a = agg[key];
+            const mean = a.n > 0 ? (a.sum / a.n) : NaN;
+            const rate = a.n > 0 ? (a.outliers / a.n) : 0;
+            let label = '品質優良';
+            let color = '#38a169';
+            if (rate > 0.05) { label = '需要改善'; color = '#f59e0b'; }
+            else if (rate > 0.02) { label = '良好'; color = '#10b981'; }
+            statusEl.textContent = label;
+            statusEl.style.color = color;
+            detailsEl.innerHTML = `
+                • 平均值: ${isFinite(mean) ? mean.toFixed(2) : '—'} μΩ<br>
+                • 標準差: — μΩ<br>
+                • 異常率: ${(rate*100).toFixed(1)}%<br>
+                • 狀態: ${label}
+            `;
+        };
+        syncMeasCard(meas1Status, meas1Details, '量測值1');
+        syncMeasCard(meas2Status, meas2Details, '量測值2');
+        syncMeasCard(meas3Status, meas3Details, '量測值3');
+    }
+
+    // 手法與人員一致性（以群組標準差與異常率綜合評估）
+    const methodConsistencyEl = document.getElementById('methodConsistencySummary');
+    if (methodConsistencyEl) {
+        const entries = Object.values(phaseBreakdown);
+        let stdSum = 0;
+        let stdCount = 0;
+        let groupsNoOutlier = 0;
+        let groupsTotal = 0;
+        const measurerSet = new Set();
+        entries.forEach(d => {
+            if (!d) return;
+            groupsTotal++;
+            if (typeof d.stdDev === 'number' && isFinite(d.stdDev)) {
+                stdSum += d.stdDev;
+                stdCount++;
+            }
+            if ((d.outliers || 0) === 0) groupsNoOutlier++;
+            if (d.group) measurerSet.add(d.group);
+        });
+        const avgStd = stdCount > 0 ? (stdSum / stdCount) : NaN;
+        const noOutlierRate = groupsTotal > 0 ? (groupsNoOutlier / groupsTotal) : 0;
+        let consistencyLabel = '優良';
+        if (isFinite(avgStd)) {
+            if (avgStd > 2.0) consistencyLabel = '需要改善';
+            else if (avgStd > 1.0) consistencyLabel = '良好';
+        }
+        methodConsistencyEl.innerHTML = `
+            <strong style="color: #38a169;">手法與人員一致性:</strong><br>
+            手法(A–D): 平均標準差 ${isFinite(avgStd) ? avgStd.toFixed(2) : '—'} μΩ（${consistencyLabel}）<br>
+            量測者: ${measurerSet.size} 位，無異常群組比例 ${(noOutlierRate*100).toFixed(1)}%<br>
+            逸出/異常: 依 3σ 與 LSL/USL 即時統計<br>
+            整體評估: ${consistencyLabel}
+        `;
+
+        // 底部卡片同步資訊
+        const methodConsistencyStatus = document.getElementById('methodConsistencyStatus');
+        const methodConsistencyDetails = document.getElementById('methodConsistencyDetails');
+        if (methodConsistencyStatus && methodConsistencyDetails) {
+            methodConsistencyStatus.textContent = consistencyLabel;
+            methodConsistencyStatus.style.color = (consistencyLabel === '需要改善') ? '#f59e0b' : '#38a169';
+            methodConsistencyDetails.innerHTML = `
+                • 平均標準差: ${isFinite(avgStd) ? avgStd.toFixed(2) : '—'} μΩ<br>
+                • 無異常群組比例: ${(noOutlierRate*100).toFixed(1)}%<br>
+                • 建議: ${consistencyLabel === '需要改善' ? '檢視接觸點與手法一致性' : '維持現有標準'}
+            `;
+        }
+    }
+
+    // 整體品質等級規則
+    const outlierRate = totalMeasurements > 0 ? (totalOutliers / totalMeasurements) : 0;
+    let level = 'excellent';
+    let label = '品質優良';
+    let boxBg = '#38a169';
+    let boxBorder = '#2f855a';
+    if (outlierRate > 0.05) {
+        level = 'warning';
+        label = '需要改善';
+        boxBg = '#f59e0b';
+        boxBorder = '#b45309';
+    } else if (outlierRate > 0.02) {
+        level = 'good';
+        label = '良好';
+        boxBg = '#10b981';
+        boxBorder = '#059669';
+    }
+
+    // 更新系統警示條與卡片狀態
+    if (systemAlertBox && systemAlertTitle && systemAlertText) {
+        systemAlertBox.style.background = boxBg;
+        systemAlertBox.style.borderLeft = `4px solid ${boxBorder}`;
+        systemAlertTitle.textContent = `${label} - 接觸電阻品質狀況`;
+        systemAlertText.textContent = `目前異常率約 ${(outlierRate * 100).toFixed(1)}%，異常點 ${totalOutliers} / 樣本 ${totalMeasurements}。以 LSL/USL 與 3σ 進行判定，請持續監控主要要因。`;
+    }
+    if (overallQualityCard && overallQualityValue && overallOutlierText) {
+        overallQualityCard.classList.remove('excellent', 'warning', 'critical');
+        if (level === 'warning') overallQualityCard.classList.add('warning');
+        else if (level === 'good') overallQualityCard.classList.add('excellent');
+        else overallQualityCard.classList.add('excellent');
+        overallQualityValue.textContent = label;
+        overallQualityValue.style.color = (level === 'warning') ? '#f59e0b' : (level === 'good') ? '#10b981' : '#38a169';
+        overallOutlierText.textContent = `${totalOutliers} 個 (${(outlierRate*100).toFixed(1)}%)`;
     }
 }
 
@@ -1668,10 +1907,13 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeHistogramControls();
     initializeScatterControls();
     initializeOverviewTable();
+    renderOutlierSummary();
     initializeStatisticsTable();
     
     // 初始化圖表
     setTimeout(() => {
+        console.log('Initializing charts...');
+        console.log('PhaseBreakdown keys:', Object.keys(phaseBreakdown));
         updateControlChart();
         updateHistogram();
         updateScatterPlot();
@@ -1679,6 +1921,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 在SPC數據生成完成後更新統計數據
         updateHeaderStats();
+        renderOutlierSummary();
     }, 1000);
 
     // 回到頂端按鈕邏輯

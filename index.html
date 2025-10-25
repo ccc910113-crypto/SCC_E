@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>動作時間測量分析系統 - 品質分析報告</title>
+    <title>接觸電阻測量品質分析系統 - 品質分析報告</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,8 +13,8 @@
         <div class="container">
             <div class="header-content">
                 <div class="header-main">
-                    <h1>⚡ 動作時間測量分析系統</h1>
-                    <p>品質分析系統 - 基於動態測量數據的專業分析 (4個儀器編號完整數據)</p>
+                    <h1>⚡ 接觸電阻測量品質分析系統</h1>
+                    <p>品質分析系統 - 基於動態測量數據的專業分析 (4個儀器編號完整數據 - 量測值1/2/3)</p>
                 </div>
                 <div class="header-stats">
                     <div class="header-stat">
@@ -30,8 +30,8 @@
                         <div class="header-stat-label">儀器數</div>
                     </div>
                     <div class="header-stat">
-                        <div class="header-stat-value">4</div>
-                        <div class="header-stat-label">量測手法</div>
+                        <div class="header-stat-value">3</div>
+                        <div class="header-stat-label">測量項目</div>
                     </div>
                     <div class="header-stat">
                         <div class="header-stat-value">0</div>
@@ -47,9 +47,9 @@
 
     <div class="container">
         <!-- System Quality Status -->
-        <div class="system-alert" style="background: #38a169; border-left: 4px solid #2f855a;">
-            <h4 style="color: white;">✅ 斷路器動作時間品質狀況</h4>
-            <p style="color: white;">檢測到動作時間品質優良：(1) 閉合動作時間93.5~99.9ms，完全符合標準值範圍93~99ms (2) 開啟動作時間28.7~31.2ms，完全符合標準值範圍28~31ms (3) 測量手法A、B、C、D一致性良好。建議持續維持現有測量標準。</p>
+        <div id="systemAlertBox" class="system-alert" style="background: #38a169; border-left: 4px solid #2f855a;">
+            <h4 id="systemAlertTitle" style="color: white;">✅ 斷路器動作時間品質狀況</h4>
+            <p id="systemAlertText" style="color: white;">檢測到測量品質優良：(1) 量測值1範圍83.7~101.9，數據分布穩定 (2) 量測值2範圍83.1~102.4，測量一致性良好 (3) 量測值3範圍83.7~101.9，測量手法A、B、C、D一致性良好。建議持續維持現有測量標準。</p>
         </div>
 
         <!-- Navigation Tabs -->
@@ -80,15 +80,15 @@
         <!-- Overview Section -->
         <div id="overview" class="content-section active">
             <div class="stats-grid">
-                <div class="stats-card excellent">
+                <div id="overallQualityCard" class="stats-card excellent">
                     <div class="stats-title">整體品質狀況</div>
-                    <div class="stats-value" style="color: #38a169;">品質優良</div>
-                    <div class="stats-subtitle">最新統計概況</div>
+                    <div id="overallQualityValue" class="stats-value" style="color: #38a169;">品質優良</div>
+                    <div id="overallQualitySubtitle" class="stats-subtitle">最新統計概況</div>
                     <div class="stats-details">
                         • 總測量數: 動態計算 (4個儀器編號完整數據)<br>
-                        • 異常點: 0 個 (0%)<br>
+                        • 異常點: <span id="overallOutlierText">0 個 (0%)</span><br>
                         • 檔位數：4 檔（量測者）<br>
-                        • 測量項目：閉合/開啟 動作時間<br>
+                        • 測量項目：量測值1/量測值2/量測值3<br>
                         • 品質主要集中在「測量手法標準化」與「量測者技能一致」
                     </div>
                 </div>
@@ -108,12 +108,12 @@
 
                 <div class="stats-card excellent">
                     <div class="stats-title">品質指標</div>
-                    <div class="stats-value" style="color: #38a169;">閉合/開啟動作時間優良</div>
+                    <div class="stats-value" style="color: #38a169;">量測值1/2/3品質優良</div>
                     <div class="stats-subtitle">各測量項目分析</div>
                     <div class="stats-details">
-                        • 閉合動作時間: 96.7ms (標準值範圍內)<br>
-                        • 開啟動作時間: 29.8ms (標準值範圍內)<br>
-                        • 測量手法一致性: 1.2ms標準差<br>
+                        • 量測值1: 86.5ms (數據分布穩定)<br>
+                        • 量測值2: 86.8ms (測量一致性良好)<br>
+                        • 量測值3: 86.2ms (測量手法一致性佳)<br>
                         • 量測者技能一致性: 1.5ms標準差
                     </div>
                 </div>
@@ -126,21 +126,49 @@
                         • 測量手法標準差: 1.2ms<br>
                         • 無異常點<br>
                         • 一致性: 100%<br>
-                        • 測量範圍: 93.5~99.9ms (閉合), 28.7~31.2ms (開啟)<br>
+                        • 測量範圍: 83.7~101.9ms (量測值1), 83.1~102.4ms (量測值2), 83.7~101.9ms (量測值3)<br>
                         • 測量品質高度穩定
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <h3 class="section-title">📊 詳細分析數據 (動作時間)</h3>
+                <h3 class="section-title">🚨 <span id="outlierSummaryCount">0</span> 個異常點概況</h3>
+                <div style="background: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; padding: 16px; border-radius: 8px; margin-bottom: 16px; font-size: 0.9rem; color: #7f1d1d;">
+                    判斷標準：
+                    <ul style="margin: 8px 0 0 20px; line-height: 1.6;">
+                        <li>超出規格界限（USL > 96.2 μΩ 或 LSL < 78.7 μΩ）</li>
+                        <li>超出 3σ 統計界限（以當前群組的平均值與標準差計算）</li>
+                    </ul>
+                </div>
+                <div style="max-height: 260px; overflow: auto; border: 1px solid #edf2f7; border-radius: 8px;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>儀器編號</th>
+                                <th>量測者</th>
+                                <th>測量值</th>
+                                <th>值 (μΩ)</th>
+                                <th>診斷</th>
+                                <th>依據</th>
+                            </tr>
+                        </thead>
+                        <tbody id="outlierSummaryList">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="section-title">📊 詳細分析數據 (量測值1/2/3)</h3>
                 <div style="background: rgba(56, 161, 105, 0.1); border-left: 4px solid #38a169; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #38a169; margin-bottom: 12px; font-size: 1rem;">訊號線安裝手法</h4>
+                    <h4 style="color: #38a169; margin-bottom: 12px; font-size: 1rem;">量測手法</h4>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 0.875rem; color: #1a365d;">
-                        <div><strong>A:</strong> 夾螺絲，螺絲未完全鎖緊</div>
-                        <div><strong>B:</strong> 夾螺絲，螺絲鎖緊狀態</div>
-                        <div><strong>C:</strong> 夾接地銅板</div>
-                        <div><strong>D:</strong> 夾接地螺孔</div>
+                        <div><strong>A:</strong> 電流夾及電壓夾碰觸導體</div>
+                        <div><strong>B:</strong> 電流及電壓夾同一點位置</div>
+                        <div><strong>C:</strong> 電流夾螺絲，電壓碰觸導體</div>
+                        <div><strong>D:</strong> 電流及電壓分別夾獨立螺絲</div>
                     </div>
                 </div>
                 <table class="data-table" id="overviewTable">
@@ -163,21 +191,16 @@
                 </table>
             </div>
 
+            
+
         </div>
 
         <!-- Control Charts Section -->
         <div id="control-charts" class="content-section">
             <div class="control-panel">
                 <div class="control-group">
-                    <div class="control-title">🏭 選擇專案</div>
+                    <div class="control-title">🏭 儀器編號</div>
                     <div class="control-buttons" id="projectButtons">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <div class="control-title">⚡ 操作類型</div>
-                    <div class="control-buttons" id="operationButtons">
                         <!-- Will be populated by JavaScript -->
                     </div>
                 </div>
@@ -190,7 +213,7 @@
                 </div>
                 
                 <div class="control-group">
-                    <div class="control-title">📈 測量值</div>
+                    <div class="control-title">📊 測量值</div>
                     <div class="control-buttons" id="measurementButtons">
                         <!-- Will be populated by JavaScript -->
                     </div>
@@ -199,11 +222,11 @@
 
             <div class="chart-container">
                 <h3 style="margin-bottom: 8px; color: #2d3748; font-size: 1.25rem;" id="controlChartTitle">
-                    永興一-動作時間 管制圖
+                    21B652G-量測值1 管制圖
                 </h3>
                 <canvas id="controlChart" class="chart-canvas"></canvas>
                 <div class="chart-info">
-                    <strong>規格界限說明:</strong> 綠色實線為標準值，紅色虛線為上限值/下限值。<span id="phaseInfo">紅色標記點為測量值。</span>
+                    <strong>規格界限說明:</strong> 綠色實線為標準值，紅色虛線為上限值/下限值。<span id="phaseInfo">紅色標記點為異常值。</span>
                 </div>
             </div>
         </div>
@@ -212,28 +235,21 @@
         <div id="histogram" class="content-section">
             <div class="control-panel">
                 <div class="control-group">
-                    <div class="control-title">🏭 選擇專案</div>
+                    <div class="control-title">🏭 儀器編號</div>
                     <div class="control-buttons" id="histogramProjectButtons">
                         <!-- Will be populated by JavaScript -->
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <div class="control-title">⚡ 操作類型</div>
-                    <div class="control-buttons" id="histogramOperationButtons">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <div class="control-title">📊 群組選擇</div>
+                    <div class="control-title">👤 量測者</div>
                     <div class="control-buttons" id="histogramGroupButtons">
                         <!-- Will be populated by JavaScript -->
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <div class="control-title">📈 測量項目</div>
+                    <div class="control-title">📊 測量值</div>
                     <div class="control-buttons" id="histogramMeasurementButtons">
                         <!-- Will be populated by JavaScript -->
                     </div>
@@ -242,7 +258,7 @@
 
             <div class="chart-container">
                 <h3 style="margin-bottom: 8px; color: #2d3748; font-size: 1.25rem;" id="histogramTitle">
-                    動作時間分布直方圖 - 永興一-actionTime
+                    量測值1分布直方圖 - 21B652G-量測值1
                 </h3>
                 <canvas id="histogramChart" class="chart-canvas"></canvas>
                 <div class="chart-info">
@@ -255,35 +271,28 @@
         <div id="scatter" class="content-section">
             <div class="control-panel">
                 <div class="control-group">
-                    <div class="control-title">🏭 選擇專案</div>
+                    <div class="control-title">🏭 儀器編號</div>
                     <div class="control-buttons" id="scatterProjectButtons">
                         <!-- Will be populated by JavaScript -->
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <div class="control-title">⚡ 操作類型</div>
-                    <div class="control-buttons" id="scatterOperationButtons">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <div class="control-title">📊 群組選擇</div>
+                    <div class="control-title">👤 量測者</div>
                     <div class="control-buttons" id="scatterGroupButtons">
                         <!-- Will be populated by JavaScript -->
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <div class="control-title">📈 X軸測量項目</div>
+                    <div class="control-title">📈 X軸測量值</div>
                     <div class="control-buttons" id="scatterXMeasurementButtons">
                         <!-- Will be populated by JavaScript -->
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <div class="control-title">📈 Y軸測量項目</div>
+                    <div class="control-title">📈 Y軸測量值</div>
                     <div class="control-buttons" id="scatterYMeasurementButtons">
                         <!-- Will be populated by JavaScript -->
                     </div>
@@ -291,7 +300,7 @@
             </div>
 
             <div class="chart-container">
-                <h3 style="margin-bottom: 8px; color: #2d3748; font-size: 1.25rem;" id="scatterTitle">動作時間 vs 速度 散布圖分析</h3>
+                <h3 style="margin-bottom: 8px; color: #2d3748; font-size: 1.25rem;" id="scatterTitle">量測值1 vs 量測值2 散布圖分析</h3>
                 <canvas id="scatterChart" class="chart-canvas"></canvas>
                 <div class="chart-info">
                     <strong>測量項目關聯分析:</strong> <span id="scatterPhaseInfo">觀察測量值1與測量值2之間的相關性，數據呈現良好一致性，反映測量品質穩定。</span>
@@ -328,12 +337,12 @@
         <!-- Fishbone Diagram Section -->
         <div id="fishbone" class="content-section">
             <div class="card">
-                <h3 class="section-title">🐟 特性要因圖 (魚骨圖) - 斷路器動作時間品質分析</h3>
+                <h3 class="section-title">🐟 特性要因圖 (魚骨圖) - 接觸電阻品質分析</h3>
                 
                 <div style="background: rgba(56, 161, 105, 0.1); border-left: 4px solid #38a169; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
                     <h4 style="color: #38a169; margin-bottom: 12px;">✅ 品質狀況描述</h4>
                     <p style="font-size: 0.875rem; color: #1a365d;">
-                        斷路器動作時間試驗數據顯示整體品質良好，閉合動作時間(93.5-99.9ms)和開啟動作時間(28.7-31.2ms)均符合標準值範圍。數據穩定，測量手法A、B、C、D結果一致，各量測者測量結果相近，顯示製程控制良好。
+                        斷路器動作時間試驗目前以三個量測值（μΩ）進行品質評估。依現有數據與規格（LSL 78.7、標準 84.5~87.0、USL 96.2 μΩ），各量測值的整體平均落在標準區附近，異常率低，顯示整體品質受控。A–D 量測手法說明已標準化，且各量測者結果一致性佳，製程控制良好。
                     </p>
                 </div>
 
@@ -446,7 +455,7 @@
         <!-- Pareto Chart Section -->
         <div id="pareto" class="content-section">
             <div class="chart-container">
-                <h3 style="margin-bottom: 8px; color: #2d3748; font-size: 1.25rem;">柏拉圖 - 斷路器動作時間品質分析</h3>
+                <h3 style="margin-bottom: 8px; color: #2d3748; font-size: 1.25rem;">柏拉圖 - 接觸電阻品質分析</h3>
                 <canvas id="paretoChart" class="chart-canvas"></canvas>
                 <div class="chart-info">
                     <strong>品質分析:</strong> 柏拉圖顯示各品質因素的貢獻度。當前數據顯示測量手法標準化是最重要的品質因素。
@@ -456,37 +465,35 @@
             <div class="stats-grid">
                 <div class="stats-card excellent">
                     <div class="stats-title">主要品質因素</div>
-                    <div class="stats-value" style="color: #38a169;">測量手法標準化</div>
-                    <div class="stats-subtitle">佔品質的35%</div>
-                    <div class="stats-details">
-                        • A、B、C、D手法一致: 4個<br>
-                        • 各量測者結果一致<br>
-                        • 符合標準值範圍<br>
-                        • 測量手法標準化完善
+                    <div id="paretoMajorValue" class="stats-value" style="color: #38a169;">—</div>
+                    <div id="paretoMajorSubtitle" class="stats-subtitle">—</div>
+                    <div id="paretoMajorDetails" class="stats-details">
+                        • Top 1: —<br>
+                        • Top 2: —<br>
+                        • Top 3: —
                     </div>
                 </div>
                 
                 <div class="stats-card excellent">
                     <div class="stats-title">品質範圍</div>
-                    <div class="stats-value" style="color: #38a169;">全量測者</div>
-                    <div class="stats-subtitle">系統性品質評估</div>
-                    <div class="stats-details">
-                        • 品質量測者: 4個<br>
-                        • 品質測量項目: 2個<br>
-                        • 品質測量: 動作時間<br>
-                        • 品質等級: 優良
+                    <div id="paretoScopeValue" class="stats-value" style="color: #38a169;">—</div>
+                    <div id="paretoScopeSubtitle" class="stats-subtitle">系統性品質評估</div>
+                    <div id="paretoScopeDetails" class="stats-details">
+                        • 量測者: — 位<br>
+                        • 儀器編號: — 台<br>
+                        • 測量項目: 量測值1/2/3<br>
+                        • 異常率: —
                     </div>
                 </div>
                 
                 <div class="stats-card excellent">
                     <div class="stats-title">品質維持順序</div>
-                    <div class="stats-value" style="color: #38a169;">測量維持</div>
-                    <div class="stats-subtitle">建議維持順序</div>
-                    <div class="stats-details">
-                        1. 測量手法標準化維持<br>
-                        2. 量測者培訓持續<br>
-                        3. 測量設備校準維持<br>
-                        4. 專用測量標準維持
+                    <div id="paretoMaintainValue" class="stats-value" style="color: #38a169;">—</div>
+                    <div class="stats-subtitle">建議維持順序（依主要要因）</div>
+                    <div id="paretoMaintainDetails" class="stats-details">
+                        1. —<br>
+                        2. —<br>
+                        3. —
                     </div>
                 </div>
             </div>
@@ -495,39 +502,39 @@
         <!-- Statistics Section -->
         <div id="statistics" class="content-section">
             <div class="card">
-                <h3 class="section-title">📊 統計分析詳細報告 (斷路器動作時間試驗)</h3>
+                <h3 class="section-title">📊 統計分析詳細報告 (接觸電阻品質分析)</h3>
                 
                 <!-- 測量項目統計比較分析 -->
                 <div style="background: rgba(56, 161, 105, 0.1); border-left: 4px solid #38a169; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
                     <h4 style="color: #38a169; margin-bottom: 16px;">測量項目統計比較分析 (4個儀器編號完整數據)</h4>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; font-size: 0.875rem;">
-                        <div>
-                            <strong style="color: #38a169;">閉合動作時間統計 (整體):</strong><br>
-                            平均值: 96.7ms<br>
-                            標準值範圍: 93~99ms<br>
-                            異常率: 0%<br>
-                            狀態: 完全正常
+                        <div id="meas1Summary">
+                            <strong style="color: #38a169;">量測值1 (整體):</strong><br>
+                            平均值: — μΩ<br>
+                            標準值: 84.5 ~ 87.0 μΩ<br>
+                            規格範圍: 78.7 ~ 96.2 μΩ<br>
+                            異常率: —
                         </div>
-                        <div>
-                            <strong style="color: #38a169;">開啟動作時間統計 (整體):</strong><br>
-                            平均值: 29.8ms<br>
-                            標準值範圍: 28~31ms<br>
-                            異常率: 0%<br>
-                            狀態: 完全正常
+                        <div id="meas2Summary">
+                            <strong style="color: #38a169;">量測值2 (整體):</strong><br>
+                            平均值: — μΩ<br>
+                            標準值: 84.5 ~ 87.0 μΩ<br>
+                            規格範圍: 78.7 ~ 96.2 μΩ<br>
+                            異常率: —
                         </div>
-                        <div>
-                            <strong style="color: #38a169;">測量手法一致性統計:</strong><br>
-                            標準差: 1.2ms<br>
-                            標準範圍: A、B、C、D手法<br>
-                            異常率: 0%<br>
-                            狀態: 手法標準化完善
+                        <div id="meas3Summary">
+                            <strong style="color: #38a169;">量測值3 (整體):</strong><br>
+                            平均值: — μΩ<br>
+                            標準值: 84.5 ~ 87.0 μΩ<br>
+                            規格範圍: 78.7 ~ 96.2 μΩ<br>
+                            異常率: —
                         </div>
-                        <div>
-                            <strong style="color: #38a169;">量測者一致性統計:</strong><br>
-                            標準差: 1.5ms<br>
-                            標準範圍: 4位量測者<br>
-                            異常率: 0%<br>
-                            狀態: 量測者技能一致
+                        <div id="methodConsistencySummary">
+                            <strong style="color: #38a169;">手法與人員一致性:</strong><br>
+                            手法(A–D): 動態分析中<br>
+                            量測者: 動態分析中<br>
+                            逸出/異常: 即時計算<br>
+                            整體評估: 動態顯示
                         </div>
                     </div>
                 </div>
@@ -556,41 +563,49 @@
             <!-- 測量項目比較分析 -->
             <div class="stats-grid">
                 <div class="stats-card excellent">
-                    <div class="stats-title">閉合動作時間分析</div>
-                    <div class="stats-value" style="color: #38a169;">優良</div>
-                    <div class="stats-subtitle">品質狀況優良</div>
-                    <div class="stats-details">
-                        • 平均值: 96.7ms<br>
-                        • 標準差: 1.5ms<br>
-                        • 異常率: 0%<br>
-                        • 儀器一致性: 95%<br>
-                        • 狀態: 完全正常
+                    <div class="stats-title">量測值1 分析</div>
+                    <div id="meas1Status" class="stats-value" style="color: #38a169;">—</div>
+                    <div class="stats-subtitle">依現有數據即時分析</div>
+                    <div id="meas1Details" class="stats-details">
+                        • 平均值: — μΩ<br>
+                        • 標準差: — μΩ<br>
+                        • 異常率: —<br>
+                        • 狀態: —
                     </div>
                 </div>
                 
                 <div class="stats-card excellent">
-                    <div class="stats-title">開啟動作時間分析</div>
-                    <div class="stats-value" style="color: #38a169;">優良</div>
-                    <div class="stats-subtitle">品質狀況優良</div>
-                    <div class="stats-details">
-                        • 平均值: 29.8ms<br>
-                        • 標準差: 2.1ms<br>
-                        • 異常率: 0%<br>
-                        • 儀器一致性: 90%<br>
-                        • 狀態: 完全正常
+                    <div class="stats-title">量測值2 分析</div>
+                    <div id="meas2Status" class="stats-value" style="color: #38a169;">—</div>
+                    <div class="stats-subtitle">依現有數據即時分析</div>
+                    <div id="meas2Details" class="stats-details">
+                        • 平均值: — μΩ<br>
+                        • 標準差: — μΩ<br>
+                        • 異常率: —<br>
+                        • 狀態: —
                     </div>
                 </div>
                 
+                <div class="stats-card excellent">
+                    <div class="stats-title">量測值3 分析</div>
+                    <div id="meas3Status" class="stats-value" style="color: #38a169;">—</div>
+                    <div class="stats-subtitle">依現有數據即時分析</div>
+                    <div id="meas3Details" class="stats-details">
+                        • 平均值: — μΩ<br>
+                        • 標準差: — μΩ<br>
+                        • 異常率: —<br>
+                        • 狀態: —
+                    </div>
+                </div>
+
                 <div class="stats-card excellent">
                     <div class="stats-title">測量手法一致性分析</div>
-                    <div class="stats-value" style="color: #38a169;">優良</div>
-                    <div class="stats-subtitle">品質狀況優良</div>
-                    <div class="stats-details">
-                        • 標準差: 1.2ms<br>
-                        • 變異係數: 1.2%<br>
-                        • 異常率: 0%<br>
-                        • 專案一致性: 100%<br>
-                        • 狀態: 完全正常
+                    <div id="methodConsistencyStatus" class="stats-value" style="color: #38a169;">—</div>
+                    <div class="stats-subtitle">A–D 手法與量測者一致性</div>
+                    <div id="methodConsistencyDetails" class="stats-details">
+                        • 平均標準差: — μΩ<br>
+                        • 無異常群組比例: —<br>
+                        • 建議: —
                     </div>
                 </div>
             </div>

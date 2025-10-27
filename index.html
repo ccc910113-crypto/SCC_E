@@ -48,7 +48,7 @@
     <div class="container">
         <!-- System Quality Status -->
         <div id="systemAlertBox" class="system-alert" style="background: #38a169; border-left: 4px solid #2f855a;">
-            <h4 id="systemAlertTitle" style="color: white;">✅ 斷路器動作時間品質狀況</h4>
+            <h4 id="systemAlertTitle" style="color: white;">✅ 接觸電阻品質狀況</h4>
             <p id="systemAlertText" style="color: white;">檢測到測量品質優良：(1) 量測值1範圍83.7~101.9，數據分布穩定 (2) 量測值2範圍83.1~102.4，測量一致性良好 (3) 量測值3範圍83.7~101.9，測量手法A、B、C、D一致性良好。建議持續維持現有測量標準。</p>
         </div>
 
@@ -111,10 +111,10 @@
                     <div class="stats-value" style="color: #38a169;">量測值1/2/3品質優良</div>
                     <div class="stats-subtitle">各測量項目分析</div>
                     <div class="stats-details">
-                        • 量測值1: 86.5ms (數據分布穩定)<br>
-                        • 量測值2: 86.8ms (測量一致性良好)<br>
-                        • 量測值3: 86.2ms (測量手法一致性佳)<br>
-                        • 量測者技能一致性: 1.5ms標準差
+                        • 量測值1: 89.38μΩ (數據分布穩定)<br>
+                        • 量測值2: 89.11μΩ (測量一致性良好)<br>
+                        • 量測值3: 89.28μΩ (測量手法一致性佳)<br>
+                        • 量測者技能一致性: 6.48μΩ標準差
                     </div>
                 </div>
 
@@ -123,10 +123,10 @@
                     <div class="stats-value" style="color: #38a169;">測量手法標準化</div>
                     <div class="stats-subtitle">A、B、C、D手法最一致</div>
                     <div class="stats-details" id="bestPhaseDetails">
-                        • 測量手法標準差: 1.2ms<br>
-                        • 無異常點<br>
-                        • 一致性: 100%<br>
-                        • 測量範圍: 83.7~101.9ms (量測值1), 83.1~102.4ms (量測值2), 83.7~101.9ms (量測值3)<br>
+                        • 測量手法標準差: 6.48μΩ<br>
+                        • 異常率: 23-25%<br>
+                        • 一致性: 需要改善<br>
+                        • 測量範圍: 78.7~96.2μΩ (量測值1), 78.7~96.2μΩ (量測值2), 78.7~96.2μΩ (量測值3)<br>
                         • 測量品質高度穩定
                     </div>
                 </div>
@@ -339,10 +339,10 @@
             <div class="card">
                 <h3 class="section-title">🐟 特性要因圖 (魚骨圖) - 接觸電阻品質分析</h3>
                 
-                <div style="background: rgba(56, 161, 105, 0.1); border-left: 4px solid #38a169; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
-                    <h4 style="color: #38a169; margin-bottom: 12px;">✅ 品質狀況描述</h4>
+                <div style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
+                    <h4 style="color: #f59e0b; margin-bottom: 12px;">⚠️ 品質狀況描述</h4>
                     <p style="font-size: 0.875rem; color: #1a365d;">
-                        斷路器動作時間試驗目前以三個量測值（μΩ）進行品質評估。依現有數據與規格（LSL 78.7、標準 84.5~87.0、USL 96.2 μΩ），各量測值的整體平均落在標準區附近，異常率低，顯示整體品質受控。A–D 量測手法說明已標準化，且各量測者結果一致性佳，製程控制良好。
+                        接觸電阻測量品質分析目前以三個量測值（μΩ）進行品質評估。依現有數據與規格（LSL 78.7、標準 84.5~87.0、USL 96.2 μΩ），各量測值的整體平均約 89 μΩ，超出標準範圍，異常率達 23-25%，顯示品質需要改善。A–D 量測手法已標準化，但測量結果變異較大，建議檢視接觸點與測量手法一致性，加強製程控制。
                     </p>
                 </div>
 
@@ -375,9 +375,9 @@
                         <ul style="font-size: 0.875rem; line-height: 1.6; margin-left: 16px;">
                             <li><strong>測量值一致:</strong> 測量值1與測量值2結果一致</li>
                             <li><strong>測量手法標準化:</strong> A、B、C、D手法標準化完善</li>
-                            <li><strong>測量環境穩定:</strong> 環境對動作時間測量影響小</li>
+                            <li><strong>測量環境穩定:</strong> 環境對接觸電阻測量影響小</li>
                             <li><strong>測量時機適當:</strong> 測量時機選擇得當</li>
-                            <li><strong>重現性良好:</strong> 動作時間測量結果穩定</li>
+                            <li><strong>重現性良好:</strong> 接觸電阻測量結果穩定</li>
                         </ul>
                     </div>
                     
@@ -385,8 +385,8 @@
                         <h4 style="color: #38a169; margin-bottom: 12px;">👥 人員因素 (Man)</h4>
                         <ul style="font-size: 0.875rem; line-height: 1.6; margin-left: 16px;">
                             <li><strong>量測者一致:</strong> 不同量測者測量結果一致</li>
-                            <li><strong>經驗充足:</strong> 動作時間測量相關技術經驗豐富</li>
-                            <li><strong>培訓完善:</strong> 動作時間測量專門知識培訓充足</li>
+                            <li><strong>經驗充足:</strong> 接觸電阻測量相關技術經驗豐富</li>
+                            <li><strong>培訓完善:</strong> 接觸電阻測量專門知識培訓充足</li>
                             <li><strong>操作標準化:</strong> 測量操作標準化完善</li>
                             <li><strong>技能一致:</strong> 量測者技能水準一致</li>
                         </ul>
@@ -396,7 +396,7 @@
                         <h4 style="color: #38a169; margin-bottom: 12px;">🏭 環境因素 (Environment)</h4>
                         <ul style="font-size: 0.875rem; line-height: 1.6; margin-left: 16px;">
                             <li><strong>測量環境穩定:</strong> 不同測量環境對結果影響小</li>
-                            <li><strong>溫度控制:</strong> 環境溫度對動作時間測量影響小</li>
+                            <li><strong>溫度控制:</strong> 環境溫度對接觸電阻測量影響小</li>
                             <li><strong>濕度控制:</strong> 環境濕度對測量精度影響小</li>
                             <li><strong>振動控制:</strong> 環境振動對測量結果影響小</li>
                             <li><strong>電磁防護:</strong> 電磁環境對測量設備影響小</li>
@@ -406,18 +406,18 @@
                     <div style="background: rgba(56, 161, 105, 0.1); border-left: 4px solid #38a169; padding: 20px; border-radius: 8px;">
                         <h4 style="color: #38a169; margin-bottom: 12px;">🧪 材料因素 (Material)</h4>
                         <ul style="font-size: 0.875rem; line-height: 1.6; margin-left: 16px;">
-                            <li><strong>斷路器材料一致:</strong> 不同斷路器材料對動作時間影響小</li>
-                            <li><strong>材料批次穩定:</strong> 不同批次斷路器材料差異小</li>
-                            <li><strong>材料老化控制:</strong> 斷路器材料老化對動作時間影響小</li>
-                            <li><strong>材料規格符合:</strong> 斷路器材料規格符合標準</li>
-                            <li><strong>材料品質穩定:</strong> 斷路器材料品質穩定性佳</li>
+                            <li><strong>接觸材料一致:</strong> 不同接觸材料對電阻影響小</li>
+                            <li><strong>材料批次穩定:</strong> 不同批次接觸材料差異小</li>
+                            <li><strong>材料老化控制:</strong> 接觸材料老化對電阻影響小</li>
+                            <li><strong>材料規格符合:</strong> 接觸材料規格符合標準</li>
+                            <li><strong>材料品質穩定:</strong> 接觸材料品質穩定性佳</li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Quality Maintenance Plan -->
                 <div style="background: linear-gradient(135deg, #38a169, #2f855a); color: white; padding: 24px; border-radius: 16px; margin-top: 24px;">
-                    <h4 style="margin-bottom: 16px;">🎯 斷路器動作時間品質維持計畫</h4>
+                    <h4 style="margin-bottom: 16px;">🎯 接觸電阻品質維持計畫</h4>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; font-size: 0.875rem;">
                         <div>
                             <strong>持續監控 (日常):</strong><br>
@@ -463,12 +463,12 @@
             </div>
             
             <div class="stats-grid">
-                <div class="stats-card excellent">
+                <div class="stats-card warning">
                     <div class="stats-title">主要品質因素</div>
-                    <div id="paretoMajorValue" class="stats-value" style="color: #38a169;">—</div>
-                    <div id="paretoMajorSubtitle" class="stats-subtitle">—</div>
+                    <div id="paretoMajorValue" class="stats-value" style="color: #f59e0b;">接觸電阻過高</div>
+                    <div id="paretoMajorSubtitle" class="stats-subtitle">佔比 100.0%</div>
                     <div id="paretoMajorDetails" class="stats-details">
-                        • Top 1: —<br>
+                        • Top 1: 接觸電阻過高<br>
                         • Top 2: —<br>
                         • Top 3: —
                     </div>
@@ -562,9 +562,9 @@
             
             <!-- 測量項目比較分析 -->
             <div class="stats-grid">
-                <div class="stats-card excellent">
+                <div class="stats-card warning">
                     <div class="stats-title">量測值1 分析</div>
-                    <div id="meas1Status" class="stats-value" style="color: #38a169;">—</div>
+                    <div id="meas1Status" class="stats-value" style="color: #f59e0b;">—</div>
                     <div class="stats-subtitle">依現有數據即時分析</div>
                     <div id="meas1Details" class="stats-details">
                         • 平均值: — μΩ<br>
@@ -574,9 +574,9 @@
                     </div>
                 </div>
                 
-                <div class="stats-card excellent">
+                <div class="stats-card warning">
                     <div class="stats-title">量測值2 分析</div>
-                    <div id="meas2Status" class="stats-value" style="color: #38a169;">—</div>
+                    <div id="meas2Status" class="stats-value" style="color: #f59e0b;">—</div>
                     <div class="stats-subtitle">依現有數據即時分析</div>
                     <div id="meas2Details" class="stats-details">
                         • 平均值: — μΩ<br>
@@ -586,9 +586,9 @@
                     </div>
                 </div>
                 
-                <div class="stats-card excellent">
+                <div class="stats-card warning">
                     <div class="stats-title">量測值3 分析</div>
-                    <div id="meas3Status" class="stats-value" style="color: #38a169;">—</div>
+                    <div id="meas3Status" class="stats-value" style="color: #f59e0b;">—</div>
                     <div class="stats-subtitle">依現有數據即時分析</div>
                     <div id="meas3Details" class="stats-details">
                         • 平均值: — μΩ<br>
@@ -598,9 +598,9 @@
                     </div>
                 </div>
 
-                <div class="stats-card excellent">
+                <div class="stats-card warning">
                     <div class="stats-title">測量手法一致性分析</div>
-                    <div id="methodConsistencyStatus" class="stats-value" style="color: #38a169;">—</div>
+                    <div id="methodConsistencyStatus" class="stats-value" style="color: #f59e0b;">—</div>
                     <div class="stats-subtitle">A–D 手法與量測者一致性</div>
                     <div id="methodConsistencyDetails" class="stats-details">
                         • 平均標準差: — μΩ<br>

@@ -1,5 +1,5 @@
 // ==================== 全域變數 ====================
-// 斷路器動作特性試驗數據分析 - 新數據結構（包含測量值1、測量值2、測量值3）
+// 接觸電阻測量品質分析 - 新數據結構（包含測量值1、測量值2、測量值3）
 const circuitBreakerData = {
     // 根據新的CSV數據結構重新組織
     "量測數據": [
@@ -86,7 +86,7 @@ const circuitBreakerData = {
     ]
 };
 
-// 標準值設定 - 斷路器動作特性試驗標準 (更新後)
+// 標準值設定 - 接觸電阻測量標準 (更新後)
 const specLimits = {
     // 新量測值標準（適用於 量測值1/2/3）
     "量測值1": {
@@ -131,23 +131,23 @@ function detectOutliersWithDiagnosis(data, mean, stdDev, usl, lsl) {
             let diagnosis = '';
             let severity = 'warning';
             
-            // 狀況1：動作時間超出標準範圍
+            // 狀況1：接觸電阻超出標準範圍
             if (usl && val > usl) {
-                diagnosis = '動作時間過長';
+                diagnosis = '接觸電阻過高';
                 severity = 'critical';
             }
             else if (lsl && val < lsl) {
-                diagnosis = '動作時間過短';
+                diagnosis = '接觸電阻過低';
                 severity = 'critical';
             }
-            // 狀況2：三相相差時間異常
+            // 狀況2：測量值變異過大
             else if (Math.abs(val - mean) > stdDev * 2) {
-                diagnosis = '三相不平衡';
+                diagnosis = '測量變異過大';
                 severity = 'warning';
             }
-            // 狀況3：速度異常
+            // 狀況3：測量手法不一致
             else if (Math.abs(val - mean) > stdDev * 1.5) {
-                diagnosis = '速度異常';
+                diagnosis = '測量手法不一致';
                 severity = 'caution';
             }
             
@@ -1346,7 +1346,7 @@ function getMeasurementText(measurement) {
         case '量測值1': return '量測值1';
         case '量測值2': return '量測值2';
         case '量測值3': return '量測值3';
-        case 'actionTime': return '動作時間';
+        case 'actionTime': return '接觸電阻';
         case 'phaseDiff': return '三相相差時間'; 
         case 'speed': return '速度';
         case 'closeTime1': return '投入操作第一組';
@@ -1892,7 +1892,7 @@ function updateHeaderStats() {
 
 // ==================== 主初始化 ====================
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Circuit Breaker Analysis System Initializing...');
+    console.log('Contact Resistance Analysis System Initializing...');
     
     if (typeof Chart === 'undefined') {
         console.error('Chart.js not loaded');

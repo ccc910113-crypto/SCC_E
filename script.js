@@ -1771,7 +1771,7 @@ function updateHeaderStats() {
             const mean = a.n > 0 ? (a.sum / a.n) : NaN;
             const rate = a.n > 0 ? (a.outliers / a.n) : 0;
             el.innerHTML = `
-                <strong style="color: #38a169;">${key} (整體):</strong><br>
+                <strong style="color: #f59e0b;">${key} (整體):</strong><br>
                 平均值: ${isFinite(mean) ? mean.toFixed(2) : '—'} μΩ<br>
                 標準值: 84.5 ~ 87.0 μΩ<br>
                 規格範圍: 78.7 ~ 96.2 μΩ<br>
@@ -1833,7 +1833,7 @@ function updateHeaderStats() {
             else if (avgStd > 1.0) consistencyLabel = '良好';
         }
         methodConsistencyEl.innerHTML = `
-            <strong style="color: #38a169;">手法與人員一致性:</strong><br>
+            <strong style="color: #f59e0b;">手法與人員一致性:</strong><br>
             手法(A–D): 平均標準差 ${isFinite(avgStd) ? avgStd.toFixed(2) : '—'} μΩ（${consistencyLabel}）<br>
             量測者: ${measurerSet.size} 位，無異常群組比例 ${(noOutlierRate*100).toFixed(1)}%<br>
             逸出/異常: 依 3σ 與 LSL/USL 即時統計<br>

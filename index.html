@@ -220,14 +220,25 @@
                 </div>
             </div>
 
+            <!-- Outlier Primary Cause Notice (specific finding) -->
+            <div class="card" style="margin-bottom: 16px;">
+                <h3 class="section-title">🚨 異常值主因說明</h3>
+                <div style="background: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; padding: 16px; border-radius: 8px; font-size: 0.9rem; color: #7f1d1d;">
+                    21B652G-涂X騰-量測值1（手法A/B/C/D）分析結果：主要異常來源為 <strong>手法B</strong>。本次彙總 <strong>46 個異常值</strong>，<strong>全部發生於手法B</strong>。
+                </div>
+            </div>
+
             <div class="chart-container">
                 <h3 style="margin-bottom: 8px; color: #2d3748; font-size: 1.25rem;" id="controlChartTitle">
                     21B652G-量測值1 管制圖
                 </h3>
+                <div id="localOutlierBrief" class="chart-info" style="margin-bottom: 6px; display: none;"></div>
                 <canvas id="controlChart" class="chart-canvas"></canvas>
                 <div class="chart-info">
-                    <strong>規格界限說明:</strong> 綠色實線為標準值，紅色虛線為上限值/下限值。藍色標記點為測量值，紅色標記點為異常值。<span id="phaseInfo"></span>
+                    <strong>規格界限說明:</strong> 綠色實線為標準值，紅色虛線為上限值 (96.2μΩ)/下限值 (78.7μΩ)。藍色標記點為測量值，紅色標記點為異常值。<span id="phaseInfo"></span>
                 </div>
+                
+                <!-- Removed global outlier cause card from Control Chart; now a local brief card will be rendered here if needed. -->
             </div>
         </div>
 
@@ -459,6 +470,15 @@
                 <canvas id="paretoChart" class="chart-canvas"></canvas>
                 <div class="chart-info">
                     <strong>品質分析:</strong> 柏拉圖顯示各品質因素的貢獻度。當前數據顯示測量手法標準化是最重要的品質因素。
+                </div>
+                
+                <!-- Outlier Cause Analysis Card (moved here as global view) -->
+                <div class="card" style="margin-top: 16px;">
+                    <h3 class="section-title">📊 異常值原因分析（全體數據）</h3>
+                    <div id="outlierCauseCard" style="background: rgba(245, 158, 11, 0.08); border-left: 4px solid #f59e0b; padding: 16px; border-radius: 8px; font-size: 0.9rem; color: #92400e;">
+                        <div id="outlierCauseSummary">資料載入中…</div>
+                        <div id="outlierCauseLists" style="margin-top: 12px;"></div>
+                    </div>
                 </div>
             </div>
             

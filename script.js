@@ -126,7 +126,7 @@ function detectOutliersWithDiagnosis(data, mean, stdDev, usl, lsl) {
     const threshold = 3; // 3σ原則
     const outliers = [];
     
-    data.forEach(val => {
+    data.forEach((val, idx) => {
         if (Math.abs(val - mean) > threshold * stdDev || (usl && val > usl) || (lsl && val < lsl)) {
             let diagnosis = '';
             let severity = 'warning';
@@ -153,6 +153,7 @@ function detectOutliersWithDiagnosis(data, mean, stdDev, usl, lsl) {
             
             outliers.push({
                 value: val,
+                index: idx,
                 diagnosis: diagnosis,
                 severity: severity,
                 deviation: ((val - mean) / mean * 100).toFixed(1)
@@ -747,6 +748,7 @@ function updateControlChart() {
                 },
                 y: {
                     beginAtZero: false,
+                    max: 105,
                     ticks: {
                         font: { size: 10 }
                     }
@@ -754,6 +756,29 @@ function updateControlChart() {
             }
         }
     });
+
+    // 針對目前選擇，顯示精簡版在地異常說明
+    const briefEl = document.getElementById('localOutlierBrief');
+    if (briefEl) {
+        const key = selectedGroupKey;
+        const d = phaseBreakdown[key];
+        if (d && (d.outliers || 0) > 0) {
+            // 估算各手法異常數（透過 outlier index 對應 methodOrder）
+            const counts = { A: 0, B: 0, C: 0, D: 0 };
+            const methodOrder = d.methodOrder || [];
+            (d.outliersDiagnosis || []).forEach(o => {
+                const idx = typeof o.index === 'number' ? o.index : null;
+                const method = (idx !== null && methodOrder[idx]) ? methodOrder[idx] : methodOrder[0];
+                if (method && counts[method] !== undefined) counts[method]++;
+            });
+            const top = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+            briefEl.style.display = 'block';
+            briefEl.innerHTML = `目前選擇：異常 ${d.outliers} 個，主要集中於手法 <strong>${top ? top[0] : '—'}</strong>`;
+        } else {
+            briefEl.style.display = 'none';
+            briefEl.textContent = '';
+        }
+    }
 }
 
 function updateHistogram() {
@@ -848,6 +873,7 @@ function updateHistogram() {
                 },
                 y: {
                     beginAtZero: true,
+                    max: 3,
                     ticks: {
                         font: { size: 10 }
                     }
@@ -1119,8 +1145,8 @@ function updateParetoChart() {
                     type: 'bar',
                     label: '品質貢獻度（次數）',
                     data: paretoData.map(item => item.count),
-                    backgroundColor: '#38a16980',
-                    borderColor: '#38a169',
+                backgroundColor: '#f59e0b80',
+                borderColor: '#f59e0b',
                     borderWidth: 1,
                     yAxisID: 'y'
                 },
@@ -1231,22 +1257,44 @@ function updateParetoChart() {
     if (scopeValue && scopeDetails) {
         const measurerCount = new Set(measurementData.map(r => r.量測者)).size;
         const instrumentCount = new Set(measurementData.map(r => r.儀器編號)).size;
+        const methodSet = new Set(measurementData.map(r => r.量測手法).filter(Boolean));
+        const methodCount = methodSet.size;
+        const methodList = Array.from(methodSet).sort().join('/');
         // 以全域異常率
         let totalN = 0, totalOut = 0;
         Object.values(spcData).forEach(d => { totalN += (d.n || 0); totalOut += (d.outliers || 0); });
         const rate = totalN > 0 ? (totalOut / totalN) : 0;
         scopeValue.textContent = '全量測者/儀器';
-        scopeDetails.innerHTML = `• 量測者: ${measurerCount} 位<br>• 儀器編號: ${instrumentCount} 台<br>• 測量項目: 量測值1/2/3<br>• 異常率: ${(rate*100).toFixed(1)}%`;
+        scopeDetails.innerHTML = `• 量測者: ${measurerCount} 位<br>• 儀器編號: ${instrumentCount} 台<br>• 測量手法: ${methodCount} 種 (${methodList})<br>• 測量項目: 量測值1/2/3<br>• 異常率: ${(rate*100).toFixed(1)}%`;
     }
 
     if (maintainValue && maintainDetails) {
-        const top1 = labels[0] || '手法標準化';
+        const top1Cause = labels[0] || '';
+        const top1Action = getMaintainActionFromCause(top1Cause);
         maintainValue.textContent = '測量維持';
-        maintainDetails.innerHTML = `1. ${top1}<br>2. 量測者培訓與一致性<br>3. 設備校準與維護`;
+        maintainDetails.innerHTML = `1. ${top1Action}<br>2. 量測者培訓與一致性<br>3. 設備校準與維護`;
     }
 }
 
 // ==================== 工具函數 ====================
+function getMaintainActionFromCause(cause) {
+    if (!cause) return '手法標準化';
+    // 依主要要因轉換為可執行的維持/改善項目
+    if (cause.includes('接觸電阻過高')) {
+        // 目前資料顯示手法B為主因，導向手法與接觸介面改善
+        return '手法B標準化（夾持位置/壓力/接觸面清潔）';
+    }
+    if (cause.includes('手法') || cause.includes('測量手法')) {
+        return '測量手法標準化（SOP 明確化與稽核）';
+    }
+    if (cause.includes('量測者') || cause.includes('人員')) {
+        return '量測者訓練與交叉驗證';
+    }
+    if (cause.includes('設備') || cause.includes('儀器')) {
+        return '設備校準與維護週期強化';
+    }
+    return `針對「${cause}」之標準化/訓練/校準`; // 通用回退
+}
 // 獲取可用量測者列表
 function getAvailableMeasurers(project) {
     const measurers = new Set();
@@ -1633,6 +1681,114 @@ function renderOutlierSummary() {
     countEl.textContent = total;
 }
 
+function renderOutlierCauseAnalysis() {
+    const container = document.getElementById('outlierCauseCard');
+    if (!container) return;
+
+    const summaryEl = document.getElementById('outlierCauseSummary');
+    const listsEl = document.getElementById('outlierCauseLists');
+    if (!summaryEl || !listsEl) return;
+
+    const byInstrument = new Map();
+    const byMeasurer = new Map();
+    const byMethod = new Map();
+    const byMeasurement = new Map();
+
+    let totalOutliers = 0;
+
+    Object.keys(phaseBreakdown).forEach(key => {
+        const d = phaseBreakdown[key];
+        const project = d.project;
+        const measurer = d.group;
+        const measurement = d.measurement;
+        const methodOrder = d.methodOrder || [];
+
+        const diagnoses = d.outliersDiagnosis || [];
+        diagnoses.forEach(o => {
+            totalOutliers++;
+            const idx = typeof o.index === 'number' ? o.index : null;
+            const method = (idx !== null && methodOrder[idx]) ? methodOrder[idx] : (methodOrder[0] || 'A');
+
+            byInstrument.set(project, (byInstrument.get(project) || 0) + 1);
+            byMeasurer.set(measurer, (byMeasurer.get(measurer) || 0) + 1);
+            byMethod.set(method, (byMethod.get(method) || 0) + 1);
+            byMeasurement.set(measurement, (byMeasurement.get(measurement) || 0) + 1);
+        });
+    });
+
+    const sortEntries = (map, type) => {
+        const arr = Array.from(map.entries());
+        const methodOrder = { A: 1, B: 2, C: 3, D: 4 };
+        const measKey = (k) => k;
+        const instrKey = (k) => k;
+        const measValKey = (k) => {
+            // 量測值1/2/3 -> 1/2/3 作為數值排序
+            const n = k && k.startsWith('量測值') ? Number(k.replace('量測值','')) : 999;
+            return isNaN(n) ? 999 : n;
+        };
+        return arr.sort((a,b)=>{
+            if (b[1] !== a[1]) return b[1] - a[1];
+            // tie-breakers
+            if (type === 'method') {
+                const aa = methodOrder[a[0]] ?? 99;
+                const bb = methodOrder[b[0]] ?? 99;
+                return aa - bb;
+            }
+            if (type === 'measurement') {
+                return measValKey(a[0]) - measValKey(b[0]);
+            }
+            if (type === 'instrument') {
+                return instrKey(a[0]) < instrKey(b[0]) ? -1 : 1;
+            }
+            if (type === 'measurer') {
+                return measKey(a[0]) < measKey(b[0]) ? -1 : 1;
+            }
+            return 0;
+        });
+    };
+
+    const topInstrument = sortEntries(byInstrument, 'instrument')[0];
+    const topMeasurer = sortEntries(byMeasurer, 'measurer')[0];
+    const topMethod = sortEntries(byMethod, 'method')[0];
+    const topMeasurement = sortEntries(byMeasurement, 'measurement')[0];
+
+    // 依發生數量由高到低排列四個類別
+    const summaryItems = [
+        topInstrument ? { label: '儀器編號', name: topInstrument[0], count: topInstrument[1] } : null,
+        topMeasurer ? { label: '量測者', name: topMeasurer[0], count: topMeasurer[1] } : null,
+        topMethod ? { label: '測量手法', name: topMethod[0], count: topMethod[1] } : null,
+        topMeasurement ? { label: '測量值', name: topMeasurement[0], count: topMeasurement[1] } : null
+    ].filter(Boolean).sort((a,b)=>b.count - a.count);
+
+    const summaryText = summaryItems.map(it => `${it.label} <strong>${it.name}</strong> (${it.count} 個)`).join('、 ');
+    summaryEl.innerHTML = `異常點總數：<strong>${totalOutliers}</strong> 個。主要集中於： ${summaryText}。`;
+
+    const renderList = (title, map, type) => {
+        const list = sortEntries(map, type)
+            .slice(0, 10)
+            .map(([k,v]) => `<li>${k}: <strong>${v}</strong> 個</li>`)
+            .join('');
+        return `
+            <div style="margin-top: 12px;">
+                <strong>${title}</strong>
+                <ul style="margin: 6px 0 0 18px;">${list || '<li>—</li>'}</ul>
+            </div>
+        `;
+    };
+
+    // 類別依主要原因高到低排序（與摘要一致）
+    const categories = [
+        { title: '按儀器編號彙總', map: byInstrument, type: 'instrument', top: topInstrument?.[1] || 0 },
+        { title: '按量測者彙總', map: byMeasurer, type: 'measurer', top: topMeasurer?.[1] || 0 },
+        { title: '按測量手法彙總', map: byMethod, type: 'method', top: topMethod?.[1] || 0 },
+        { title: '按測量值彙總', map: byMeasurement, type: 'measurement', top: topMeasurement?.[1] || 0 }
+    ].sort((a,b)=> b.top - a.top);
+
+    listsEl.innerHTML = categories
+        .map(c => renderList(c.title, c.map, c.type))
+        .join('');
+}
+
 function initializeStatisticsTable() {
     const tbody = document.querySelector('#statisticsTable tbody');
     if (!tbody) return;
@@ -1918,6 +2074,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateHistogram();
         updateScatterPlot();
         updateParetoChart();
+        renderOutlierCauseAnalysis();
         
         // 在SPC數據生成完成後更新統計數據
         updateHeaderStats();
@@ -1981,16 +2138,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // 初始主題：以 localStorage 優先，否則依系統偏好
-    applyTheme(savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light'));
+    // 初始主題：以 localStorage 優先，否則預設為淺色
+    applyTheme(savedTheme ? savedTheme : 'light');
 
-    // 系統偏好變化時同步（若未手動設定）
-    if (!savedTheme && window.matchMedia) {
-        const mq = window.matchMedia('(prefers-color-scheme: dark)');
-        mq.addEventListener('change', (e) => {
-            applyTheme(e.matches ? 'dark' : 'light');
-        });
-    }
+    // 停用自動跟隨系統偏好，維持使用者選擇或預設淺色
 
     // 切換點擊
     if (themeToggleBtn) {
@@ -2002,6 +2153,7 @@ document.addEventListener('DOMContentLoaded', function() {
             themeToggleBtn.textContent = isDark ? '☀️ 淺色模式' : '🌙 深色模式';
             // 重新繪製受影響的圖表，使座標軸標題配色更新
             updateParetoChart();
+            renderOutlierCauseAnalysis();
         });
     }
 });

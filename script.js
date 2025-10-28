@@ -1067,7 +1067,12 @@ function updateScatterPlot() {
                         text: `${getMeasurementText(selectedScatterX)}`,
                         font: { size: 12, weight: 'bold' }
                     },
-                    grid: { color: '#f3f4f6' }
+                    grid: { color: '#f3f4f6' },
+                    min: 80,
+                    max: 102,
+                    ticks: {
+                        stepSize: 2
+                    }
                 },
                 y: {
                     title: {
@@ -1075,7 +1080,12 @@ function updateScatterPlot() {
                         text: `${getMeasurementText(selectedScatterY)}`,
                         font: { size: 12, weight: 'bold' }
                     },
-                    grid: { color: '#f3f4f6' }
+                    grid: { color: '#f3f4f6' },
+                    min: 80,
+                    max: 102,
+                    ticks: {
+                        stepSize: 2
+                    }
                 }
             }
         }

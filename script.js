@@ -1046,15 +1046,30 @@ function updateScatterPlot() {
                     callbacks: {
                         title: function(context) {
                             const point = dataPoints[context[0].dataIndex];
-                            const desc = point.method ? getMethodDescription(point.method) : '';
-                            return `${point.project} - 手法${point.method || '-'}${desc ? '（' + desc + '）' : ''}`;
+                            return point.project || '';
                         },
                         label: function(context) {
+                            const point = dataPoints[context.dataIndex];
                             const xText = getMeasurementText(selectedScatterX);
                             const yText = getMeasurementText(selectedScatterY);
+                            const xVal = context.parsed.x;
+                            const yVal = context.parsed.y;
+                            const method = point.method || '-';
+                            
+                            // 當 X 軸和 Y 軸選擇相同測量值時，只顯示一次並加上手法
+                            if (selectedScatterX === selectedScatterY) {
+                                return `${xText}: ${xVal.toFixed(2)} (${method})`;
+                            }
+                            
+                            // 當 X 軸和 Y 軸選擇不同測量值時，使用固定寬度對齊
+                            // 找出最長的標籤文字，用來對齊
+                            const maxLength = Math.max(xText.length, yText.length);
+                            const xPadded = xText.padEnd(maxLength, ' ');
+                            const yPadded = yText.padEnd(maxLength, ' ');
+                            
                             return [
-                                `${xText}: ${context.parsed.x.toFixed(2)}`,
-                                `${yText}: ${context.parsed.y.toFixed(2)}`
+                                `${xPadded}: ${xVal.toFixed(2)} (${method})`,
+                                `${yPadded}: ${yVal.toFixed(2)} (${method})`
                             ];
                         }
                     }
